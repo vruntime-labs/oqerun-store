@@ -15,6 +15,7 @@ import { WebAppProvider } from "../providers/WebAppProvider";
 import { WasmProvider } from "../providers/WasmProvider";
 import { ExternalProvider } from "../providers/ExternalProvider";
 import type { Application } from "../models/App";
+import { catalogAssets } from "../data/catalogAssets";
 
 const STORE_VERSION = "0.2.0";
 const OQERUN_VERSION = "0.1.0";
@@ -24,7 +25,7 @@ function esc(value: unknown): string {
 }
 
 export class Store {
-  private readonly catalog = new Catalog([...catalogData, ...remoteCatalog]);
+  private readonly catalog = new Catalog([...catalogData, ...remoteCatalog].map(app => ({ ...app, metadata: { ...app.metadata, ...catalogAssets[app.id] } })));
   private readonly registry = new AppRegistry();
   private readonly verifier = new Verification();
   private readonly permissions = new PermissionManager();
