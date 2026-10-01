@@ -330,7 +330,7 @@ export class Store {
     return '<article class="app-card modern-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></button>' +
       '<div class="app-card-body"><div class="app-card-title"><h3>' + esc(app.name) + "</h3>" + listing + '</div>' +
       '<p class="publisher">v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</p><p class="description">' + esc(app.description) + "</p>" +
-      '<div class="app-meta"><span>' + esc(app.category) + "</span><span>" + esc(app.type) + "</span>" + (app.metadata?.offline ? "<span>Offline</span>" : "") + "</div><div class="app-card-action-row">' + action + this.wishlistMarkup(app) + "</div></div></article>";
+      '<div class="app-meta"><span>' + esc(app.category) + "</span><span>" + esc(app.type) + "</span>" + (app.metadata?.offline ? "<span>Offline</span>" : "") + '</div><div class="app-card-action-row">' + action + this.wishlistMarkup(app) + "</div></div></article>";
   }
 
   private railApp(app: Application, rank: number): string {
