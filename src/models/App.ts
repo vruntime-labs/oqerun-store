@@ -18,6 +18,8 @@ export interface InstallationSource {
   method: ApplicationType;
   url?: string;
   sha256?: string;
+  downloadUrl?: string;
+  downloadFileName?: string;
 }
 
 export interface ApplicationMetadata {
