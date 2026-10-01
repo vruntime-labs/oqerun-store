@@ -25,7 +25,17 @@ function esc(value: unknown): string {
 }
 
 export class Store {
-  private readonly catalog = new Catalog([...catalogData, ...remoteCatalog].map(app => ({ ...app, metadata: { ...app.metadata, ...(catalogAssets as Record<string, { iconUrl?: string; screenshots?: readonly string[] }>)[app.id] } })));
+  private readonly catalog = new Catalog([...catalogData, ...remoteCatalog].map(app => {
+    const assets = (catalogAssets as unknown as Record<string, { iconUrl?: string; screenshots?: readonly string[] }>)[app.id];
+    return {
+      ...app,
+      metadata: {
+        ...app.metadata,
+        iconUrl: assets?.iconUrl ?? app.metadata?.iconUrl,
+        screenshots: assets?.screenshots ? [...assets.screenshots] : app.metadata?.screenshots
+      }
+    };
+  }));
   private readonly registry = new AppRegistry();
   private readonly verifier = new Verification();
   private readonly permissions = new PermissionManager();
