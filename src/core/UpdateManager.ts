@@ -1,9 +1,19 @@
 import type { Application } from "../models/App";
 import type { InstalledApplication } from "./AppRegistry";
 
+export interface AvailableUpdate {
+  app: Application;
+  installed: InstalledApplication;
+  currentVersion: string;
+  availableVersion: string;
+}
+
 function compareVersions(a: string, b: string): number {
-  const left = a.split(".").map((x) => Number.parseInt(x, 10) || 0);
-  const right = b.split(".").map((x) => Number.parseInt(x, 10) || 0);
+  const normalize = (version: string) =>
+    version.replace(/^v/i, "").split(".").map((part) => Number.parseInt(part, 10) || 0);
+
+  const left = normalize(a);
+  const right = normalize(b);
 
   for (let i = 0; i < Math.max(left.length, right.length); i += 1) {
     const l = left[i] ?? 0;
@@ -15,13 +25,19 @@ function compareVersions(a: string, b: string): number {
 }
 
 export class UpdateManager {
-  findUpdates(installed: InstalledApplication[], catalog: Application[]): Application[] {
+  findUpdates(installed: InstalledApplication[], catalog: Application[]): AvailableUpdate[] {
     return installed
-      .map((item) => catalog.find((app) => app.id === item.id))
-      .filter((app): app is Application => Boolean(app))
-      .filter((app) => {
-        const current = installed.find((item) => item.id === app.id);
-        return Boolean(current && compareVersions(app.version, current.version) > 0);
-      });
+      .map((item) => {
+        const app = catalog.find((candidate) => candidate.id === item.id);
+        return app ? { app, installed: item } : undefined;
+      })
+      .filter((item): item is { app: Application; installed: InstalledApplication } => Boolean(item))
+      .filter(({ app, installed }) => compareVersions(app.version, installed.version) > 0)
+      .map(({ app, installed }) => ({
+        app,
+        installed,
+        currentVersion: installed.version,
+        availableVersion: app.version
+      }));
   }
 }
