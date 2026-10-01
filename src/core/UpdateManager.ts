@@ -8,9 +8,9 @@ export interface AvailableUpdate {
   availableVersion: string;
 }
 
-function compareVersions(a: string, b: string): number {
+export function compareVersions(a: string, b: string): number {
   const normalize = (version: string) =>
-    version.replace(/^v/i, "").split(".").map((part) => Number.parseInt(part, 10) || 0);
+    version.replace(/^v/i, "").split(/[.-]/).map((part) => Number.parseInt(part, 10) || 0);
 
   const left = normalize(a);
   const right = normalize(b);
