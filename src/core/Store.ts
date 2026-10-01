@@ -169,8 +169,13 @@ export class Store {
 
     let apps = this.filteredApps();
     const defaultView = !this.query && this.category === "All" && this.typeFilter === "all" && this.listingFilter === "all" && this.trustFilter === "all" && !this.offlineOnly && this.sort === "featured";
-    if (defaultView) apps = apps.filter(a => a.featured);
-    title.textContent = this.query ? "Search results" : defaultView ? "Featured applications" : this.category === "All" ? "All applications" : this.category;
+    title.textContent = this.query
+      ? "Search results"
+      : defaultView
+        ? "All applications"
+        : this.category === "All"
+          ? "All applications"
+          : this.category;
     stats.textContent = apps.length + " application" + (apps.length === 1 ? "" : "s") + " · " + this.catalog.all().length + " in catalog";
 
     if (!apps.length) {
