@@ -17,6 +17,7 @@ import { ExternalProvider } from "../providers/ExternalProvider";
 import type { Application } from "../models/App";
 import { catalogAssets } from "../data/catalogAssets";
 import { InstallationBridge } from "./InstallationBridge";
+import { DownloadManager } from "./DownloadManager";
 
 const STORE_VERSION = "0.2.0";
 const OQERUN_VERSION = "0.1.0";
@@ -45,6 +46,7 @@ export class Store {
   private readonly uninstaller = new UninstallManager();
   private readonly feedbackEndpoint = "";
   private readonly installationBridge = new InstallationBridge();
+  private readonly downloads = new DownloadManager();
   private readonly installer = new InstallManager([
     new OqpkgProvider(), new PwaProvider(), new WebAppProvider(), new WasmProvider(), new ExternalProvider()
   ]);
@@ -289,6 +291,9 @@ export class Store {
     container.querySelectorAll<HTMLButtonElement>("[data-details]").forEach(b => b.addEventListener("click", () => {
       const a = this.catalog.find(b.dataset.details ?? ""); if (a) this.details(a);
     }));
+    container.querySelectorAll<HTMLButtonElement>("[data-download]").forEach(b => b.addEventListener("click", () => {
+      const a = this.catalog.find(b.dataset.download ?? ""); if (a) void this.download(a);
+    }));
   }
 
   private card(app: Application, compact = false): string {
@@ -324,14 +329,22 @@ export class Store {
 
   private actionMarkup(app: Application, context: "hero" | "card" | "rail"): string {
     const cls = context === "hero" ? "install-button hero-button" : context === "rail" ? "rail-install" : "install-button";
-    const browserLaunch = (app.type === "web" || app.type === "pwa" || app.type === "external") && Boolean(app.installation.url);
+    const browserLaunch = (app.type === "web" || app.type === "pwa") && Boolean(app.installation.url);
+    const downloadable = Boolean(app.installation.downloadUrl) || (app.source.type === "github" && Boolean(app.source.repository));
+
     if (browserLaunch) return '<button class="' + cls + '" data-open="' + esc(app.id) + '">Open ↗</button>';
     if (app.type === "oqpkg") {
       if (this.installationBridge.isAvailable()) return '<button class="' + cls + '" data-install="' + esc(app.id) + '">Install</button>';
-      return '<a class="' + cls + ' action-disabled-link" href="https://vruntime-labs.github.io/oqerun-os/" target="_blank" rel="noopener noreferrer">Oqerun OS ↗</a>';
+      if (downloadable) return '<button class="' + cls + '" data-download="' + esc(app.id) + '">Download</button>';
+      return '<a class="' + cls + ' action-disabled-link" href="https://vruntime-labs.github.io/oqerun-os/" target="_blank" rel="noopener noreferrer">Open Oqerun OS ↗</a>';
     }
-    if (app.type === "wasm" && app.installation.url) return '<button class="' + cls + '" data-open="' + esc(app.id) + '">Open ↗</button>';
-    return '<button class="' + cls + ' action-disabled" disabled>Coming to Oqerun OS</button>';
+    if (app.type === "wasm" && app.installation.url) {
+      return '<div class="card-actions"><button class="' + cls + '" data-open="' + esc(app.id) + '">Open ↗</button>' +
+        (downloadable ? '<button class="icon-button" data-download="' + esc(app.id) + '" title="Download">⇩</button>' : '') + '</div>';
+    }
+    if (downloadable) return '<button class="' + cls + '" data-download="' + esc(app.id) + '">Download</button>';
+    if (app.installation.url) return '<button class="' + cls + '" data-open="' + esc(app.id) + '">Open ↗</button>';
+    return '<button class="' + cls + ' action-disabled" disabled>Not downloadable</button>';
   }
 
   private details(app: Application): void {
@@ -348,16 +361,21 @@ export class Store {
     const iconUrl = app.metadata?.iconUrl;
     const screenshots = app.metadata?.screenshots ?? [];
 
-    const browserLaunch = app.type === "web" || app.type === "pwa" || app.type === "external";
+    const browserLaunch = app.type === "web" || app.type === "pwa";
+    const downloadable = Boolean(app.installation.downloadUrl) || (app.source.type === "github" && Boolean(app.source.repository));
     let action = update
       ? '<button class="install-button large" data-modal-update>Update to ' + esc(app.version) + "</button>"
       : installed
         ? '<div class="detail-actions"><button class="install-button large" data-modal-open>Open</button><button class="install-button secondary large" data-modal-uninstall>Uninstall</button></div>'
-        : browserLaunch && app.installation.url
-          ? '<button class="install-button large" data-modal-open>Open app ↗</button>'
-          : app.type === "oqpkg" && this.installationBridge.isAvailable()
-            ? '<button class="install-button large" data-modal-install>Install in Oqerun OS</button>'
-            : '<a class="install-button large action-disabled-link" href="https://vruntime-labs.github.io/oqerun-os/" target="_blank" rel="noopener noreferrer">Open Oqerun OS ↗</a>';
+        : app.type === "oqpkg" && this.installationBridge.isAvailable()
+          ? '<button class="install-button large" data-modal-install>Install in Oqerun OS</button>'
+          : browserLaunch && app.installation.url
+            ? '<button class="install-button large" data-modal-open>Open app ↗</button>'
+            : downloadable
+              ? '<button class="install-button large" data-modal-download>Download release</button>'
+              : app.installation.url
+                ? '<button class="install-button large" data-modal-open>Open source ↗</button>'
+                : '<button class="install-button large action-disabled" disabled>Download unavailable</button>';
 
     let details = '<span>Publisher<strong>' + esc(app.publisher.name) + "</strong></span>" +
       '<span>License<strong>' + esc(app.license) + "</strong></span>" +
@@ -393,6 +411,7 @@ export class Store {
 
     dialog.querySelectorAll("[data-close]").forEach(e => e.addEventListener("click", () => dialog.innerHTML = ""));
     dialog.querySelector("[data-modal-install]")?.addEventListener("click", () => void this.install(app));
+    dialog.querySelector("[data-modal-download]")?.addEventListener("click", () => void this.download(app));
     dialog.querySelector("[data-modal-update]")?.addEventListener("click", () => void this.update(app));
     dialog.querySelector("[data-modal-open]")?.addEventListener("click", () => this.openApp(app));
     dialog.querySelector("[data-modal-uninstall]")?.addEventListener("click", () => void this.uninstall(app));
@@ -423,6 +442,20 @@ export class Store {
       this.notice(app.name + " is now registered as installed.");
     } catch (error) {
       this.notice(error instanceof Error ? error.message : "Installation could not be started.");
+    }
+  }
+
+  private async download(app: Application): Promise<void> {
+    const verification = this.verifier.verify(app);
+    if (!verification.valid) return this.notice(verification.errors.join(" "));
+    if (app.metadata?.reviewStatus === "blocked") return this.notice("This application is blocked from downloads by the Store.");
+
+    try {
+      const target = await this.downloads.download(app);
+      const sourceLabel = target.source === "github-release" ? "GitHub release" : target.source === "github-source" ? "GitHub source archive" : "publisher-provided download";
+      this.notice("Download started: " + target.fileName + " (" + sourceLabel + "). Source and license remain with the original open-source project.");
+    } catch (error) {
+      this.notice(error instanceof Error ? error.message : "The application could not be downloaded.");
     }
   }
 
