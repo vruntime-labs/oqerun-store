@@ -47,6 +47,8 @@ export class Store {
   private readonly feedbackEndpoint = "";
   private readonly installationBridge = new InstallationBridge();
   private readonly downloads = new DownloadManager();
+  private readonly wishlistKey = "oqerun-store-wishlist-v1";
+  private readonly wishlist = new Set<string>();
   private readonly installer = new InstallManager([
     new OqpkgProvider(), new PwaProvider(), new WebAppProvider(), new WasmProvider(), new ExternalProvider()
   ]);
@@ -59,7 +61,16 @@ export class Store {
   private trustFilter = "all";
   private offlineOnly = false;
 
-  constructor(private readonly root: HTMLElement) {}
+  constructor(private readonly root: HTMLElement) {
+    try {
+      const saved = JSON.parse(localStorage.getItem(this.wishlistKey) ?? "[]");
+      if (Array.isArray(saved)) {
+        saved.filter((id): id is string => typeof id === "string").forEach(id => this.wishlist.add(id));
+      }
+    } catch {
+      // Ignore malformed local wishlist data and start clean.
+    }
+  }
 
   render(): void {
     this.root.innerHTML =
@@ -85,7 +96,7 @@ export class Store {
       '<div class="sidebar-label">MY LIBRARY</div>' +
       '<button class="side-item" data-installed><span>⇩</span>Installed <b id="installed-count"></b></button>' +
       '<button class="side-item" data-updates><span>↻</span>Updates <b id="update-count"></b></button>' +
-      '<button class="side-item" data-wishlist><span>♡</span>Wishlist</button>' +
+      '<button class="side-item" data-wishlist><span>♡</span>Wishlist <b id="wishlist-count"></b></button>' +
       '<div class="sidebar-spacer"></div>' +
       '<button class="os-promo" data-os><div class="promo-mark">O</div><div><strong>Oqerun OS</strong><span>The Web, Reimagined as an Operating System.</span></div><b>›</b></button>' +
       '</aside>' +
@@ -129,7 +140,7 @@ export class Store {
       this.renderCategories();
       this.renderApps();
     });
-    this.root.querySelector("[data-wishlist]")?.addEventListener("click", () => this.notice("Wishlist is coming to the Oqerun Store account system."));
+    this.root.querySelector("[data-wishlist]")?.addEventListener("click", () => this.showWishlist());
     this.root.querySelector("[data-notifications]")?.addEventListener("click", () => this.notice("Notifications will appear here when Store updates or security events need your attention."));
     this.root.querySelector("[data-account]")?.addEventListener("click", () => this.notice("Accounts are not connected yet. Oqerun Store can be used without an account."));
     this.root.querySelectorAll("[data-os]").forEach(e => e.addEventListener("click", () => {
@@ -245,7 +256,7 @@ export class Store {
       heroContent.innerHTML =
         '<span class="hero-pill">Featured</span><h1>' + esc(hero.name) + '</h1><h3>Create. Edit. Collaborate.</h3>' +
         '<p>' + esc(hero.description) + '</p><div class="hero-tags"><span>' + esc(hero.category) + '</span><span>' + (hero.listing === "official" ? "Official" : "Community") + '</span><span>Free</span></div>' +
-        '<div class="hero-actions">' + this.actionMarkup(hero, "hero") + '<button class="install-button secondary hero-button" data-details="' + esc(hero.id) + '">View details</button></div>';
+        '<div class="hero-actions">' + this.actionMarkup(hero, "hero") + '<button class="install-button secondary hero-button" data-details="' + esc(hero.id) + '">View details</button>' + this.wishlistMarkup(hero, "hero") + '</div>';
       const art = this.root.querySelector<HTMLDivElement>(".hero-app-stack");
       if (art) art.innerHTML = heroIcon;
       this.bindAppButtons(heroContent);
@@ -294,6 +305,9 @@ export class Store {
     container.querySelectorAll<HTMLButtonElement>("[data-download]").forEach(b => b.addEventListener("click", () => {
       const a = this.catalog.find(b.dataset.download ?? ""); if (a) void this.download(a);
     }));
+    container.querySelectorAll<HTMLButtonElement>("[data-wishlist-toggle]").forEach(b => b.addEventListener("click", () => {
+      const a = this.catalog.find(b.dataset.wishlistToggle ?? ""); if (a) this.toggleWishlist(a);
+    }));
   }
 
   private card(app: Application, compact = false): string {
@@ -310,21 +324,82 @@ export class Store {
     if (compact) {
       return '<article class="featured-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></button>' +
         '<div class="featured-card-title"><h3>' + esc(app.name) + '</h3>' + listing + '</div><p class="publisher">v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</p><p class="description">' + esc(app.description) + '</p>' +
-        '<div class="app-meta"><span>' + esc(app.category) + '</span><span>' + esc(app.type) + '</span></div>' + action + '</article>';
+        '<div class="app-meta"><span>' + esc(app.category) + '</span><span>' + esc(app.type) + '</span></div><div class="app-card-action-row">' + action + this.wishlistMarkup(app) + '</div></article>';
     }
 
     return '<article class="app-card modern-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></button>' +
       '<div class="app-card-body"><div class="app-card-title"><h3>' + esc(app.name) + "</h3>" + listing + '</div>' +
       '<p class="publisher">v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</p><p class="description">' + esc(app.description) + "</p>" +
-      '<div class="app-meta"><span>' + esc(app.category) + "</span><span>" + esc(app.type) + "</span>" + (app.metadata?.offline ? "<span>Offline</span>" : "") + "</div>" + action + "</div></article>";
+      '<div class="app-meta"><span>' + esc(app.category) + "</span><span>" + esc(app.type) + "</span>" + (app.metadata?.offline ? "<span>Offline</span>" : "") + "</div><div class="app-card-action-row">' + action + this.wishlistMarkup(app) + '</div></div></article>";
   }
 
   private railApp(app: Application, rank: number): string {
-    return '<article class="popular-row"><span class="rank">' + rank + '</span><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>' + esc(app.category) + ' · ' + (app.listing === "official" ? "Official" : "Community") + '</span></div>' + this.actionMarkup(app, "rail") + '</article>';
+    return '<article class="popular-row"><span class="rank">' + rank + '</span><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>' + esc(app.category) + ' · ' + (app.listing === "official" ? "Official" : "Community") + '</span></div><div class="rail-actions">' + this.actionMarkup(app, "rail") + this.wishlistMarkup(app, "rail") + '</div></article>';
   }
 
   private railUpdated(app: Application): string {
-    return '<article class="updated-row"><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</span></div>' + this.actionMarkup(app, "rail") + '</article>';
+    return '<article class="updated-row"><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</span></div><div class="rail-actions">' + this.actionMarkup(app, "rail") + this.wishlistMarkup(app, "rail") + '</div></article>';
+  }
+
+  private isWishlisted(app: Application): boolean {
+    return this.wishlist.has(app.id);
+  }
+
+  private wishlistMarkup(app: Application, context: "hero" | "card" | "rail" | "detail" = "card"): string {
+    const active = this.isWishlisted(app);
+    const label = active ? "Remove from wishlist" : "Add to wishlist";
+    const icon = active ? "♥" : "♡";
+    const cls = context === "hero" ? "wishlist-button hero-wishlist" : context === "rail" ? "wishlist-button rail-wishlist" : context === "detail" ? "wishlist-button detail-wishlist" : "wishlist-button";
+    return '<button type="button" class="' + cls + (active ? " active" : "") + '" data-wishlist-toggle="' + esc(app.id) + '" aria-label="' + esc(label) + '" title="' + esc(label) + '">' + icon + '</button>';
+  }
+
+  private persistWishlist(): void {
+    try {
+      localStorage.setItem(this.wishlistKey, JSON.stringify([...this.wishlist]));
+    } catch {
+      this.notice("Wishlist could not be saved in this browser.");
+    }
+  }
+
+  private toggleWishlist(app: Application): void {
+    const removing = this.wishlist.has(app.id);
+    if (removing) this.wishlist.delete(app.id);
+    else this.wishlist.add(app.id);
+
+    this.persistWishlist();
+    this.renderApps();
+    this.updateBadges();
+
+    const dialog = this.root.querySelector<HTMLDivElement>("#dialog");
+    if (dialog?.querySelector(".wishlist-modal")) this.showWishlist();
+    else if (dialog?.querySelector(".app-details-modal")) this.details(app);
+    else this.notice(app.name + (removing ? " removed from Wishlist." : " added to Wishlist."));
+  }
+
+  private showWishlist(): void {
+    const dialog = this.root.querySelector<HTMLDivElement>("#dialog");
+    if (!dialog) return;
+
+    const apps = [...this.wishlist]
+      .map(id => this.catalog.find(id))
+      .filter((app): app is Application => Boolean(app));
+
+    const rows = apps.map(app =>
+      '<article class="wishlist-row">' +
+      '<button class="wishlist-app-icon" data-details="' + esc(app.id) + '">' +
+      (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) +
+      '</button>' +
+      '<div class="wishlist-app-copy"><strong>' + esc(app.name) + '</strong><span>' + esc(app.publisher.name) + ' · ' + esc(app.category) + ' · v' + esc(app.version) + '</span></div>' +
+      '<div class="row-actions">' + this.actionMarkup(app, "card") + '<button class="icon-button" data-wishlist-toggle="' + esc(app.id) + '" title="Remove from wishlist" aria-label="Remove from wishlist">♥</button></div>' +
+      '</article>'
+    ).join("");
+
+    dialog.innerHTML = '<div class="modal-backdrop"><section class="modal wide-modal wishlist-modal"><button class="modal-close" data-close>×</button>' +
+      '<p class="eyebrow">MY LIBRARY</p><h2>Wishlist</h2><p>Save apps you want to revisit. Your wishlist is stored locally in this browser.</p>' +
+      '<div class="wishlist-list">' + (rows || '<div class="empty-state"><strong>Your wishlist is empty.</strong><span>Use the ♡ button on any app to save it here.</span></div>') + '</div></section></div>';
+
+    dialog.querySelector("[data-close]")?.addEventListener("click", () => dialog.innerHTML = "");
+    this.bindAppButtons(dialog);
   }
 
   private actionMarkup(app: Application, context: "hero" | "card" | "rail"): string {
@@ -415,6 +490,7 @@ export class Store {
     dialog.querySelector("[data-modal-update]")?.addEventListener("click", () => void this.update(app));
     dialog.querySelector("[data-modal-open]")?.addEventListener("click", () => this.openApp(app));
     dialog.querySelector("[data-modal-uninstall]")?.addEventListener("click", () => void this.uninstall(app));
+    dialog.querySelector("[data-wishlist-toggle]")?.addEventListener("click", () => this.toggleWishlist(app));
   }
 
   private sourceUrl(app: Application): string | undefined {
@@ -626,10 +702,12 @@ export class Store {
   private updateBadges(): void {
     const installed = this.root.querySelector<HTMLElement>("#installed-count");
     const updates = this.root.querySelector<HTMLElement>("#update-count");
+    const wishlist = this.root.querySelector<HTMLElement>("#wishlist-count");
     const list = this.registry.list();
     const count = this.updates.findUpdates(list, this.catalog.all()).length;
     if (installed) installed.textContent = list.length ? "· " + list.length : "";
     if (updates) updates.textContent = count ? "· " + count : "";
+    if (wishlist) wishlist.textContent = this.wishlist.size ? "· " + this.wishlist.size : "";
   }
 
   private notice(message: string): void {
