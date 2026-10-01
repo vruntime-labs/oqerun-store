@@ -4,15 +4,88 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b1020" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="application-name" content="Oqerun Store" />
+    <meta name="author" content="VRuntime Labs" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta
       name="description"
-      content="The official open-source application store for Oqerun OS."
+      content="Oqerun Store is the open-source application store for Oqerun OS, featuring productivity apps, developer tools, games, media, education, graphics, PWAs, WebAssembly apps and more."
     />
+    <meta
+      name="keywords"
+      content="Oqerun Store, Oqerun OS apps, open source apps, PWA apps, WebAssembly apps, open source games, web apps"
+    />
+    <link rel="canonical" href="https://vruntime-labs.github.io/oqerun-store/" />
+    <link rel="icon" type="image/svg+xml" href="/oqerun-store/favicon.svg" />
+    <link rel="apple-touch-icon" href="/oqerun-store/favicon.svg" />
     <link rel="manifest" href="/oqerun-store/manifest.json" />
-    <title>Oqerun Store</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Oqerun Store" />
+    <meta property="og:title" content="Oqerun Store — Open-Source Apps for Oqerun OS" />
+    <meta
+      property="og:description"
+      content="Discover open-source productivity apps, games, media tools, PWAs and WebAssembly apps compatible with Oqerun OS."
+    />
+    <meta property="og:url" content="https://vruntime-labs.github.io/oqerun-store/" />
+    <meta property="og:image" content="https://vruntime-labs.github.io/oqerun-store/og-banner.svg" />
+    <meta property="og:image:alt" content="Oqerun Store — open-source applications for Oqerun OS" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Oqerun Store — Open-Source Apps for Oqerun OS" />
+    <meta
+      name="twitter:description"
+      content="Discover open-source apps, games, PWAs, WebAssembly apps and tools for Oqerun OS."
+    />
+    <meta name="twitter:image" content="https://vruntime-labs.github.io/oqerun-store/og-banner.svg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://vruntime-labs.github.io/oqerun-store/#website",
+            "url": "https://vruntime-labs.github.io/oqerun-store/",
+            "name": "Oqerun Store",
+            "description": "Open-source application store for Oqerun OS.",
+            "publisher": {
+              "@id": "https://vruntime-labs.github.io/oqerun-store/#organization"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://vruntime-labs.github.io/oqerun-store/#organization",
+            "name": "VRuntime Labs",
+            "url": "https://github.com/vruntime-labs"
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://vruntime-labs.github.io/oqerun-store/#application",
+            "name": "Oqerun Store",
+            "url": "https://vruntime-labs.github.io/oqerun-store/",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "isAccessibleForFree": true,
+            "license": "https://opensource.org/license/mit/"
+          }
+        ]
+      }
+    </script>
+
+    <title>Oqerun Store — Open-Source Apps for Oqerun OS</title>
   </head>
   <body>
     <div id="app"></div>
+    <noscript>
+      <main>
+        <h1>Oqerun Store — Open-Source Apps for Oqerun OS</h1>
+        <p>Discover open-source productivity apps, developer tools, games, media, education, graphics, PWAs and WebAssembly applications for Oqerun OS.</p>
+        <p>Oqerun Store is maintained by VRuntime Labs.</p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
