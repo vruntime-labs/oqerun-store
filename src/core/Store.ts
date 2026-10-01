@@ -16,6 +16,7 @@ import { WasmProvider } from "../providers/WasmProvider";
 import { ExternalProvider } from "../providers/ExternalProvider";
 import type { Application } from "../models/App";
 import { catalogAssets } from "../data/catalogAssets";
+import { InstallationBridge } from "./InstallationBridge";
 
 const STORE_VERSION = "0.2.0";
 const OQERUN_VERSION = "0.1.0";
@@ -43,6 +44,7 @@ export class Store {
   private readonly settings = new UpdateSettingsManager();
   private readonly uninstaller = new UninstallManager();
   private readonly feedbackEndpoint = "";
+  private readonly installationBridge = new InstallationBridge();
   private readonly installer = new InstallManager([
     new OqpkgProvider(), new PwaProvider(), new WebAppProvider(), new WasmProvider(), new ExternalProvider()
   ]);
@@ -87,6 +89,7 @@ export class Store {
       '</aside>' +
       '<section class="store-main">' +
       '<section class="hero hero-modern"><div class="hero-content" id="hero-content"></div><div class="hero-art"><div class="hero-art-glow"></div><div class="hero-app-stack"><span>W</span><span>×</span><span>P</span></div></div></section>' +
+      '<div class="store-mode-note"><strong>Browser mode</strong><span>Web and PWA apps can open here. Native Oqerun packages install through Oqerun OS when its installation bridge is available.</span><button class="store-mode-link" data-os>Open Oqerun OS ↗</button></div>' +
       '<section class="content modern-content">' +
       '<div class="section-heading"><div><p class="eyebrow">DISCOVER</p><h2 id="title">All applications</h2></div><div id="stats" class="catalog-stats"></div></div>' +
       '<div id="featured-grid" class="featured-grid"></div>' +
@@ -127,9 +130,9 @@ export class Store {
     this.root.querySelector("[data-wishlist]")?.addEventListener("click", () => this.notice("Wishlist is coming to the Oqerun Store account system."));
     this.root.querySelector("[data-notifications]")?.addEventListener("click", () => this.notice("Notifications will appear here when Store updates or security events need your attention."));
     this.root.querySelector("[data-account]")?.addEventListener("click", () => this.notice("Accounts are not connected yet. Oqerun Store can be used without an account."));
-    this.root.querySelector("[data-os]")?.addEventListener("click", () => {
+    this.root.querySelectorAll("[data-os]").forEach(e => e.addEventListener("click", () => {
       window.open("https://vruntime-labs.github.io/oqerun-os/", "_blank", "noopener,noreferrer");
-    });
+    }));
     this.renderCategories();
     this.renderApps();
     this.updateBadges();
@@ -240,7 +243,7 @@ export class Store {
       heroContent.innerHTML =
         '<span class="hero-pill">Featured</span><h1>' + esc(hero.name) + '</h1><h3>Create. Edit. Collaborate.</h3>' +
         '<p>' + esc(hero.description) + '</p><div class="hero-tags"><span>' + esc(hero.category) + '</span><span>' + (hero.listing === "official" ? "Official" : "Community") + '</span><span>Free</span></div>' +
-        '<div class="hero-actions"><button class="install-button hero-button" data-' + ((hero.type === "web" || hero.type === "pwa" || hero.type === "external") && hero.installation.url ? 'open' : 'install') + '="' + esc(hero.id) + '">' + ((hero.type === "web" || hero.type === "pwa" || hero.type === "external") && hero.installation.url ? 'Open ↗' : '⇩ Install') + '</button><button class="install-button secondary hero-button" data-details="' + esc(hero.id) + '">View details</button></div>';
+        '<div class="hero-actions">' + this.actionMarkup(hero, "hero") + '<button class="install-button secondary hero-button" data-details="' + esc(hero.id) + '">View details</button></div>';
       const art = this.root.querySelector<HTMLDivElement>(".hero-app-stack");
       if (art) art.innerHTML = heroIcon;
       this.bindAppButtons(heroContent);
@@ -294,9 +297,7 @@ export class Store {
     const trust = app.metadata?.reviewStatus ?? (app.listing === "official" ? "official" : "unverified");
     const listing = '<span class="listing-badge ' + app.listing + '">' + (app.listing === "official" ? "Official" : "Community") + "</span>";
     const browserLaunch = app.type === "web" || app.type === "pwa" || app.type === "external";
-    let action = browserLaunch && app.installation.url
-      ? '<button class="install-button" data-open="' + esc(app.id) + '">Open ↗</button>'
-      : '<button class="install-button" data-install="' + esc(app.id) + '">Install</button>';
+    let action = this.actionMarkup(app, "card");
     if (update) action = '<button class="install-button update-button" data-update="' + esc(app.id) + '">Update</button>';
     else if (installed && app.installation.url) action = '<div class="card-actions"><button class="install-button" data-open="' + esc(app.id) + '">Open</button><button class="icon-button" data-details="' + esc(app.id) + '">•••</button></div>';
     else if (installed) action = '<button class="install-button" data-details="' + esc(app.id) + '">Installed</button>';
@@ -314,11 +315,23 @@ export class Store {
   }
 
   private railApp(app: Application, rank: number): string {
-    return '<article class="popular-row"><span class="rank">' + rank + '</span><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>' + esc(app.category) + ' · ' + (app.listing === "official" ? "Official" : "Community") + '</span></div><button class="rail-install" data-install="' + esc(app.id) + '">Install</button></article>';
+    return '<article class="popular-row"><span class="rank">' + rank + '</span><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>' + esc(app.category) + ' · ' + (app.listing === "official" ? "Official" : "Community") + '</span></div>' + this.actionMarkup(app, "rail") + '</article>';
   }
 
   private railUpdated(app: Application): string {
-    return '<article class="updated-row"><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</span></div><button class="rail-install" data-install="' + esc(app.id) + '">Install</button></article>';
+    return '<article class="updated-row"><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</span></div>' + this.actionMarkup(app, "rail") + '</article>';
+  }
+
+  private actionMarkup(app: Application, context: "hero" | "card" | "rail"): string {
+    const cls = context === "hero" ? "install-button hero-button" : context === "rail" ? "rail-install" : "install-button";
+    const browserLaunch = (app.type === "web" || app.type === "pwa" || app.type === "external") && Boolean(app.installation.url);
+    if (browserLaunch) return '<button class="' + cls + '" data-open="' + esc(app.id) + '">Open ↗</button>';
+    if (app.type === "oqpkg") {
+      if (this.installationBridge.isAvailable()) return '<button class="' + cls + '" data-install="' + esc(app.id) + '">Install</button>';
+      return '<a class="' + cls + ' action-disabled-link" href="https://vruntime-labs.github.io/oqerun-os/" target="_blank" rel="noopener noreferrer">Oqerun OS ↗</a>';
+    }
+    if (app.type === "wasm" && app.installation.url) return '<button class="' + cls + '" data-open="' + esc(app.id) + '">Open ↗</button>';
+    return '<button class="' + cls + ' action-disabled" disabled>Coming to Oqerun OS</button>';
   }
 
   private details(app: Application): void {
@@ -342,7 +355,9 @@ export class Store {
         ? '<div class="detail-actions"><button class="install-button large" data-modal-open>Open</button><button class="install-button secondary large" data-modal-uninstall>Uninstall</button></div>'
         : browserLaunch && app.installation.url
           ? '<button class="install-button large" data-modal-open>Open app ↗</button>'
-          : '<button class="install-button large" data-modal-install>Install</button>';
+          : app.type === "oqpkg" && this.installationBridge.isAvailable()
+            ? '<button class="install-button large" data-modal-install>Install in Oqerun OS</button>'
+            : '<a class="install-button large action-disabled-link" href="https://vruntime-labs.github.io/oqerun-os/" target="_blank" rel="noopener noreferrer">Open Oqerun OS ↗</a>';
 
     let details = '<span>Publisher<strong>' + esc(app.publisher.name) + "</strong></span>" +
       '<span>License<strong>' + esc(app.license) + "</strong></span>" +
