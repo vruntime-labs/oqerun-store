@@ -31,3 +31,19 @@ main{max-width:1320px;margin:0 auto;padding:0 5vw 80px}.hero{min-height:330px;ma
 .notice-item a:hover{text-decoration:underline}
 .notices-footer{font-size:11px!important;color:#78849e!important;margin:18px 0!important}
 @media(max-width:560px){.notice-item{align-items:flex-start;flex-direction:column}.notice-item a{align-self:flex-start}}
+
+
+/* Feedback */
+.feedback-modal { max-width: 640px; }
+.feedback-intro { margin-top: -6px; opacity: .82; }
+.feedback-form { display: grid; gap: 14px; margin-top: 20px; }
+.feedback-form label { display: grid; gap: 7px; font-weight: 650; }
+.feedback-form input, .feedback-form select, .feedback-form textarea { width: 100%; box-sizing: border-box; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 11px 12px; background: rgba(255,255,255,.055); color: inherit; font: inherit; }
+.feedback-form textarea { resize: vertical; min-height: 130px; }
+.feedback-form option { color: #111; }
+.feedback-form .optional { font-weight: 400; opacity: .65; }
+.feedback-privacy { font-size: 12px; opacity: .62; margin: 0; }
+.feedback-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+.feedback-status { min-height: 20px; margin: 0; font-size: 13px; opacity: .82; }
+.install-button.secondary { background: transparent; border: 1px solid rgba(255,255,255,.16); }
+@media (max-width: 760px) { .feedback-actions { flex-direction: column-reverse; } .feedback-actions button { width: 100%; } }

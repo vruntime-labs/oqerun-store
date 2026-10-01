@@ -21,6 +21,7 @@ export class Store {
   private readonly permissions = new PermissionManager();
   private readonly updates = new UpdateManager();
   private readonly updateSettings = new UpdateSettingsManager();
+  private readonly feedbackEndpoint = "";
   private readonly installer = new InstallManager([
     new OqpkgProvider(),
     new PwaProvider(),
@@ -64,6 +65,7 @@ export class Store {
           <button class="nav-item" data-installed>Installed</button>
           <button class="nav-item" data-updates>Updates <b id="update-count"></b></button>
           <button class="nav-item" data-notices>Third-party notices</button>
+          <button class="nav-item" data-feedback>Feedback</button>
         </nav>
         <main>
           <section class="hero"><div><p class="eyebrow">APPLICATION STORE</p><h1>Find software.<br><span>Install it simply.</span></h1><p class="hero-copy">Discover open-source applications prepared for the Oqerun ecosystem.</p></div><div class="hero-orbit"><div>O</div></div></section>
@@ -96,6 +98,7 @@ export class Store {
     this.root.querySelector("[data-updates]")?.addEventListener("click", () => this.showUpdates());
     this.root.querySelector("[data-settings]")?.addEventListener("click", () => this.showSettings());
     this.root.querySelector("[data-notices]")?.addEventListener("click", () => this.showThirdPartyNotices());
+    this.root.querySelector("[data-feedback]")?.addEventListener("click", () => this.showFeedback());
   }
 
   private showCatalog(category: string): void {
@@ -286,6 +289,77 @@ export class Store {
     } catch (error) {
       this.notice(error instanceof Error ? error.message : "This application cannot be updated from the standalone Store yet.");
     }
+  }
+
+  private showFeedback(): void {
+    const dialog = this.root.querySelector<HTMLDivElement>("#dialog");
+    if (!dialog) return;
+
+    const apps = this.catalog.all();
+    const appOptions = apps.map((app) => '<option value="' + app.name + '">' + app.name + '</option>').join("");
+    dialog.innerHTML = [
+      '<div class="modal-backdrop"><section class="modal feedback-modal">',
+      '<button class="modal-close" data-close>×</button>',
+      '<p class="eyebrow">STORE FEEDBACK</p><h2>Tell us what you think</h2>',
+      '<p class="feedback-intro">Send a review, bug report, suggestion, or any custom message about Oqerun Store.</p>',
+      '<form id="feedback-form" class="feedback-form">',
+      '<label>App<select name="app"><option value="Oqerun Store">Oqerun Store</option>' + appOptions + '</select></label>',
+      '<label>Feedback type<select name="type"><option value="Review">Review</option><option value="Bug">Bug report</option><option value="Suggestion">Suggestion</option><option value="Other">Other</option></select></label>',
+      '<label>Rating <span class="optional">(optional)</span><select name="rating"><option value="">No rating</option><option value="5">★★★★★ 5</option><option value="4">★★★★☆ 4</option><option value="3">★★★☆☆ 3</option><option value="2">★★☆☆☆ 2</option><option value="1">★☆☆☆☆ 1</option></select></label>',
+      '<label>Custom Message<textarea name="message" rows="6" maxlength="3000" placeholder="Write anything you want us to know..."></textarea></label>',
+      '<label>Contact <span class="optional">(optional)</span><input name="contact" type="text" maxlength="200" placeholder="Email or other contact method" /></label>',
+      '<p class="feedback-privacy">Please don't include passwords, payment details, or other sensitive information.</p>',
+      '<div class="feedback-actions"><button type="button" class="install-button secondary" data-close>Cancel</button><button type="submit" class="install-button large">Send feedback</button></div>',
+      '<p id="feedback-status" class="feedback-status" aria-live="polite"></p>',
+      '</form></section></div>'
+    ].join("");
+
+    dialog.querySelectorAll("[data-close]").forEach((element) => element.addEventListener("click", () => dialog.innerHTML = ""));
+    const form = dialog.querySelector<HTMLFormElement>("#feedback-form");
+    const status = dialog.querySelector<HTMLParagraphElement>("#feedback-status");
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!this.feedbackEndpoint) {
+        if (status) status.textContent = "Feedback form is ready, but the secure Sheets endpoint has not been configured yet.";
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        timestamp: new Date().toISOString(),
+        app: String(data.get("app") ?? ""),
+        type: String(data.get("type") ?? ""),
+        rating: String(data.get("rating") ?? ""),
+        message: String(data.get("message") ?? "").trim(),
+        contact: String(data.get("contact") ?? "").trim(),
+        storeVersion: "0.1.0",
+        source: window.location.href
+      };
+
+      if (!payload.message) {
+        if (status) status.textContent = "Please enter a custom message.";
+        return;
+      }
+
+      const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (submit) submit.disabled = true;
+      if (status) status.textContent = "Sending feedback…";
+
+      try {
+        await fetch(this.feedbackEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
+          mode: "no-cors"
+        });
+        if (status) status.textContent = "Thank you! Your feedback was sent.";
+        form.reset();
+      } catch {
+        if (status) status.textContent = "We couldn't send the feedback. Please try again.";
+      } finally {
+        if (submit) submit.disabled = false;
+      }
+    });
   }
 
   private showThirdPartyNotices(): void {
