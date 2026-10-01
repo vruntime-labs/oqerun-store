@@ -83,7 +83,7 @@ export class Store {
       '<button class="side-item" data-updates><span>↻</span>Updates <b id="update-count"></b></button>' +
       '<button class="side-item" data-wishlist><span>♡</span>Wishlist</button>' +
       '<div class="sidebar-spacer"></div>' +
-      '<button class="os-promo" data-home><div class="promo-mark">O</div><div><strong>Oqerun OS</strong><span>The Web, Reimagined as an Operating System.</span></div><b>›</b></button>' +
+      '<button class="os-promo" data-os><div class="promo-mark">O</div><div><strong>Oqerun OS</strong><span>The Web, Reimagined as an Operating System.</span></div><b>›</b></button>' +
       '</aside>' +
       '<section class="store-main">' +
       '<section class="hero hero-modern"><div class="hero-content" id="hero-content"></div><div class="hero-art"><div class="hero-art-glow"></div><div class="hero-app-stack"><span>W</span><span>×</span><span>P</span></div></div></section>' +
@@ -125,6 +125,9 @@ export class Store {
       this.renderApps();
     });
     this.root.querySelector("[data-wishlist]")?.addEventListener("click", () => this.notice("Wishlist is coming to the Oqerun Store account system."));
+    this.root.querySelector("[data-os]")?.addEventListener("click", () => {
+      window.open("https://vruntime-labs.github.io/oqerun-os/", "_blank", "noopener,noreferrer");
+    });
     this.renderCategories();
     this.renderApps();
     this.updateBadges();
@@ -132,9 +135,20 @@ export class Store {
   }
 
   private bind(): void {
-    this.root.querySelector<HTMLInputElement>("#search")?.addEventListener("input", e => {
+    const searchInput = this.root.querySelector<HTMLInputElement>("#search");
+    searchInput?.addEventListener("input", e => {
       this.query = (e.target as HTMLInputElement).value;
       this.renderApps();
+    });
+    window.addEventListener("keydown", e => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        searchInput?.focus();
+        searchInput?.select();
+      }
+      if (e.key === "Escape" && document.activeElement === searchInput) {
+        searchInput?.blur();
+      }
     });
     this.root.querySelectorAll("[data-home]").forEach(b => b.addEventListener("click", () => this.showCatalog("All")));
     this.root.querySelector("[data-category-view]")?.addEventListener("click", () => this.showCatalog("All"));
@@ -224,7 +238,7 @@ export class Store {
       heroContent.innerHTML =
         '<span class="hero-pill">Featured</span><h1>' + esc(hero.name) + '</h1><h3>Create. Edit. Collaborate.</h3>' +
         '<p>' + esc(hero.description) + '</p><div class="hero-tags"><span>' + esc(hero.category) + '</span><span>' + (hero.listing === "official" ? "Official" : "Community") + '</span><span>Free</span></div>' +
-        '<div class="hero-actions"><button class="install-button hero-button" data-install="' + esc(hero.id) + '">⇩ Install</button><button class="install-button secondary hero-button" data-details="' + esc(hero.id) + '">View details</button></div>';
+        '<div class="hero-actions"><button class="install-button hero-button" data-' + ((hero.type === "web" || hero.type === "pwa" || hero.type === "external") && hero.installation.url ? 'open' : 'install') + '="' + esc(hero.id) + '">' + ((hero.type === "web" || hero.type === "pwa" || hero.type === "external") && hero.installation.url ? 'Open ↗' : '⇩ Install') + '</button><button class="install-button secondary hero-button" data-details="' + esc(hero.id) + '">View details</button></div>';
       const art = this.root.querySelector<HTMLDivElement>(".hero-app-stack");
       if (art) art.innerHTML = heroIcon;
       this.bindAppButtons(heroContent);
@@ -277,7 +291,10 @@ export class Store {
     const update = installed ? this.updates.findUpdates([installed], [app])[0] : undefined;
     const trust = app.metadata?.reviewStatus ?? (app.listing === "official" ? "official" : "unverified");
     const listing = '<span class="listing-badge ' + app.listing + '">' + (app.listing === "official" ? "Official" : "Community") + "</span>";
-    let action = '<button class="install-button" data-install="' + esc(app.id) + '">Install</button>';
+    const browserLaunch = app.type === "web" || app.type === "pwa" || app.type === "external";
+    let action = browserLaunch && app.installation.url
+      ? '<button class="install-button" data-open="' + esc(app.id) + '">Open ↗</button>'
+      : '<button class="install-button" data-install="' + esc(app.id) + '">Install</button>';
     if (update) action = '<button class="install-button update-button" data-update="' + esc(app.id) + '">Update</button>';
     else if (installed && app.installation.url) action = '<div class="card-actions"><button class="install-button" data-open="' + esc(app.id) + '">Open</button><button class="icon-button" data-details="' + esc(app.id) + '">•••</button></div>';
     else if (installed) action = '<button class="install-button" data-details="' + esc(app.id) + '">Installed</button>';
@@ -316,11 +333,14 @@ export class Store {
     const iconUrl = app.metadata?.iconUrl;
     const screenshots = app.metadata?.screenshots ?? [];
 
+    const browserLaunch = app.type === "web" || app.type === "pwa" || app.type === "external";
     let action = update
       ? '<button class="install-button large" data-modal-update>Update to ' + esc(app.version) + "</button>"
       : installed
         ? '<div class="detail-actions"><button class="install-button large" data-modal-open>Open</button><button class="install-button secondary large" data-modal-uninstall>Uninstall</button></div>'
-        : '<button class="install-button large" data-modal-install>Install</button>';
+        : browserLaunch && app.installation.url
+          ? '<button class="install-button large" data-modal-open>Open app ↗</button>'
+          : '<button class="install-button large" data-modal-install>Install</button>';
 
     let details = '<span>Publisher<strong>' + esc(app.publisher.name) + "</strong></span>" +
       '<span>License<strong>' + esc(app.license) + "</strong></span>" +
@@ -334,12 +354,18 @@ export class Store {
       '<span>File types<strong>' + esc((app.fileAssociations ?? []).join(", ") || "None declared") + "</strong></span>" +
       (app.installation.sha256 ? '<span>SHA-256<strong class="hash">' + esc(app.installation.sha256) + "</strong></span>" : "");
 
+      const screenshotMarkup = screenshots.length
+      ? '<section class="screenshot-section"><div class="screenshot-heading"><div><p class="eyebrow">PREVIEW</p><h3>Screenshots</h3></div><span>' + screenshots.length + ' image' + (screenshots.length === 1 ? '' : 's') + '</span></div><div class="screenshots">' +
+        screenshots.map((url, index) => '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer"><img src="' + esc(url) + '" alt="' + esc(app.name) + ' screenshot ' + (index + 1) + '" loading="lazy" onerror="this.closest(\'a\')?.remove()"></a>').join("") +
+        '</div></section>'
+      : '<div class="screenshot-empty">No screenshots have been published by this app yet.</div>';
+
     dialog.innerHTML = '<div class="modal-backdrop"><section class="modal app-details-modal"><button class="modal-close" data-close>×</button>' +
       '<div class="modal-icon">' + (iconUrl ? '<img src="' + esc(iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></div><div class="badge-row"><span class="listing-badge ' + app.listing + '">' + (app.listing === "official" ? "Official" : "Community") + '</span><span class="trust-badge ' + trust + '">' + esc(trust) + "</span></div>" +
       '<p class="eyebrow">' + esc(app.category) + " · " + esc(app.type) + '</p><h2>' + esc(app.name) + "</h2><p class=\"modal-publisher\">" + esc(app.publisher.name) + " · v" + esc(app.version) + "</p><p>" + esc(app.description) + "</p>" +
       '<div class="listing-notice ' + app.listing + '"><strong>' + (app.listing === "community" ? "Independent community project" : "Official Oqerun application") + "</strong><span>" +
       (app.listing === "community" ? "The original project, publisher, branding and license remain separate from VRuntime Labs." : "Published by VRuntime Labs for the Oqerun ecosystem.") + "</span></div>" +
-      '<div class="details-grid">' + details + "</div>" +
+      screenshotMarkup + '<div class="details-grid">' + details + "</div>" +
       '<div class="source-links">' + (source ? '<a href="' + esc(source) + '" target="_blank" rel="noopener noreferrer">Original source ↗</a>' : "") +
       (homepage ? '<a href="' + esc(homepage) + '" target="_blank" rel="noopener noreferrer">Website ↗</a>' : "") +
       (source ? '<a href="' + esc(source + "/blob/HEAD/LICENSE") + '" target="_blank" rel="noopener noreferrer">License ↗</a>' : "") + "</div>" +
