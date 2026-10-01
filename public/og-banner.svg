@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0b1020"/>
+  <circle cx="1040" cy="80" r="220" fill="#172554"/>
+  <circle cx="1100" cy="560" r="260" fill="#111827"/>
+  <rect x="90" y="90" width="104" height="104" rx="26" fill="#172033"/>
+  <path d="M118 118h48v13h-33v12h28v12h-28v11h34v13h-49z" fill="#fff"/>
+  <path d="M152 118h14v13h-14z" fill="#6ee7ff"/>
+  <text x="90" y="285" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="72" font-weight="700">Oqerun Store</text>
+  <text x="90" y="355" fill="#b8c4d8" font-family="Arial,Helvetica,sans-serif" font-size="34">Open-source apps for Oqerun OS</text>
+  <text x="90" y="425" fill="#7dd3fc" font-family="Arial,Helvetica,sans-serif" font-size="25">PWAs • WebAssembly • Games • Productivity • Media</text>
+  <text x="90" y="535" fill="#64748b" font-family="Arial,Helvetica,sans-serif" font-size="22">VRuntime Labs</text>
+</svg>
