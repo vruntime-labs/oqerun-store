@@ -236,7 +236,7 @@ export class Store {
 
     dialog.innerHTML = '<div class="modal-backdrop"><section class="modal app-details-modal"><button class="modal-close" data-close>×</button>' +
       '<div class="modal-icon">' + esc(app.icon) + '</div><div class="badge-row"><span class="listing-badge ' + app.listing + '">' + (app.listing === "official" ? "Official" : "Community") + '</span><span class="trust-badge ' + trust + '">' + esc(trust) + "</span></div>" +
-      '<p class="eyebrow">' + esc(app.category) + " · " + esc(app.type) + '</p><h2>' + esc(app.name) + "</h2><p class="modal-publisher">" + esc(app.publisher.name) + " · v" + esc(app.version) + "</p><p>" + esc(app.description) + "</p>" +
+      '<p class="eyebrow">' + esc(app.category) + " · " + esc(app.type) + '</p><h2>' + esc(app.name) + "</h2><p class=\"modal-publisher\">" + esc(app.publisher.name) + " · v" + esc(app.version) + "</p><p>" + esc(app.description) + "</p>" +
       '<div class="listing-notice ' + app.listing + '"><strong>' + (app.listing === "community" ? "Independent community project" : "Official Oqerun application") + "</strong><span>" +
       (app.listing === "community" ? "The original project, publisher, branding and license remain separate from VRuntime Labs." : "Published by VRuntime Labs for the Oqerun ecosystem.") + "</span></div>" +
       '<div class="details-grid">' + details + "</div>" +
