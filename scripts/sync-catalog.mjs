@@ -116,7 +116,7 @@ for (const repo of repositories.values()) {
     category: category(repo),
     icon: icon(repo),
     featured: false,
-    publisher: { name: repo.owner?.login || "GitHub community", verified: false },\n    metadata: {\n      iconUrl: assets.iconUrl,\n      screenshots: assets.screenshots,
+    publisher: { name: repo.owner?.login || "GitHub community", verified: false },
     listing: "community",
     source: { type: "github", repository: repo.full_name },
     license: repo.license.spdx_id,
@@ -126,6 +126,8 @@ for (const repo of repositories.values()) {
     permissions: ["network"],
     fileAssociations: [],
     metadata: {
+      iconUrl: assets.iconUrl,
+      screenshots: assets.screenshots,
       homepage: repo.homepage,
       lastUpdated: repo.updated_at?.slice(0, 10),
       offline: (repo.topics ?? []).includes("offline") || (repo.topics ?? []).includes("offline-first"),
