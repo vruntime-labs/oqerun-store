@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Oqerun Store Application",
+  "type": "object",
+  "required": ["id","name","version","description","category","publisher","source","license","type","compatibility","installation","permissions"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+([-.][A-Za-z0-9.-]+)?$" },
+    "description": { "type": "string" },
+    "category": { "type": "string" },
+    "icon": { "type": "string" },
+    "publisher": {
+      "type": "object",
+      "required": ["name","verified"],
+      "properties": {
+        "name": { "type": "string" },
+        "verified": { "type": "boolean" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "enum": ["github","url"] },
+        "repository": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    },
+    "license": { "type": "string" },
+    "type": { "enum": ["oqpkg","pwa","web","wasm","external"] },
+    "compatibility": {
+      "type": "object",
+      "required": ["minimumOqerunVersion"],
+      "properties": { "minimumOqerunVersion": { "type": "string" } }
+    },
+    "installation": {
+      "type": "object",
+      "required": ["method"],
+      "properties": {
+        "method": { "enum": ["oqpkg","pwa","web","wasm","external"] },
+        "url": { "type": "string" },
+        "sha256": { "type": "string" }
+      }
+    },
+    "permissions": { "type": "array", "items": { "type": "string" } },
+    "fileAssociations": { "type": "array", "items": { "type": "string" } }
+  }
+}
