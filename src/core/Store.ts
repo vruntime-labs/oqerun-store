@@ -34,6 +34,22 @@ export class Store {
 
   constructor(private readonly root: HTMLElement) {}
 
+  private sourceUrl(app: Application): string | undefined {
+    return app.source.type === "github" && app.source.repository
+      ? `https://github.com/${app.source.repository}`
+      : app.source.url;
+  }
+
+  private licenseUrl(app: Application): string | undefined {
+    return app.source.type === "github" && app.source.repository
+      ? `https://github.com/${app.source.repository}/blob/HEAD/LICENSE`
+      : undefined;
+  }
+
+  private listingLabel(app: Application): string {
+    return app.listing === "official" ? "Official Oqerun app" : "Community app";
+  }
+
   render(): void {
     this.root.innerHTML = `
       <div class="store-shell">
@@ -47,6 +63,7 @@ export class Store {
           <button class="nav-item" data-category-view>Categories</button>
           <button class="nav-item" data-installed>Installed</button>
           <button class="nav-item" data-updates>Updates <b id="update-count"></b></button>
+          <button class="nav-item" data-notices>Third-party notices</button>
         </nav>
         <main>
           <section class="hero"><div><p class="eyebrow">APPLICATION STORE</p><h1>Find software.<br><span>Install it simply.</span></h1><p class="hero-copy">Discover open-source applications prepared for the Oqerun ecosystem.</p></div><div class="hero-orbit"><div>O</div></div></section>
@@ -78,6 +95,7 @@ export class Store {
     this.root.querySelector("[data-installed]")?.addEventListener("click", () => this.showInstalled());
     this.root.querySelector("[data-updates]")?.addEventListener("click", () => this.showUpdates());
     this.root.querySelector("[data-settings]")?.addEventListener("click", () => this.showSettings());
+    this.root.querySelector("[data-notices]")?.addEventListener("click", () => this.showThirdPartyNotices());
   }
 
   private showCatalog(category: string): void {
@@ -148,7 +166,21 @@ export class Store {
       action = `<button class="install-button" data-details="${app.id}">Installed · ${installed.version}</button>`;
     }
 
-    return `<article class="app-card"><button class="app-icon" data-details="${app.id}">${app.icon}</button><div class="app-card-body"><div class="app-card-title"><h3>${app.name}</h3>${app.publisher.verified ? '<span class="verified">✓ Verified</span>' : ""}</div><p class="publisher">${app.publisher.name} · v${app.version}</p><p class="description">${app.description}</p><div class="app-meta"><span>${app.category}</span><span>${app.license}</span><span>${app.type}</span></div>${action}</div></article>`;
+    const listingBadge = app.listing === "official"
+      ? '<span class="listing-badge official">Official</span>'
+      : '<span class="listing-badge community">Community</span>';
+    const verifiedBadge = app.publisher.verified ? '<span class="verified">✓ Publisher verified</span>' : "";
+
+    return `<article class="app-card">
+      <button class="app-icon" data-details="${app.id}">${app.icon}</button>
+      <div class="app-card-body">
+        <div class="app-card-title"><h3>${app.name}</h3>${listingBadge}${verifiedBadge}</div>
+        <p class="publisher">${app.publisher.name} · v${app.version}</p>
+        <p class="description">${app.description}</p>
+        <div class="app-meta"><span>${app.category}</span><span>${app.license}</span><span>${app.type}</span></div>
+        ${action}
+      </div>
+    </article>`;
   }
 
   private details(app: Application): void {
@@ -172,11 +204,23 @@ export class Store {
         <h2>${app.name}</h2>
         <p class="modal-publisher">${app.publisher.name} · v${app.version}</p>
         <p>${app.description}</p>
+        <div class="listing-notice ${app.listing === "community" ? "community" : "official"}">
+          <strong>${this.listingLabel(app)}</strong>
+          <span>${app.listing === "community"
+            ? "Listed by Oqerun Store as a third-party project. The original project, publisher and license remain separate from Oqerun."
+            : "Published by VRuntime Labs for the Oqerun ecosystem."}</span>
+        </div>
         <div class="details-grid">
+          <span>Publisher<strong>${app.publisher.name}</strong></span>
           <span>License<strong>${app.license}</strong></span>
           <span>Oqerun<strong>${app.compatibility.minimumOqerunVersion}+</strong></span>
+          <span>Type<strong>${app.type}</strong></span>
           <span>Source<strong>${app.source.repository ?? app.source.url ?? "Not listed"}</strong></span>
           <span>Permissions<strong>${known.length ? known.join(", ") : "None listed"}${unknown.length ? ` (unknown: ${unknown.join(", ")})` : ""}</strong></span>
+        </div>
+        <div class="source-links">
+          ${this.sourceUrl(app) ? `<a href="${this.sourceUrl(app)}" target="_blank" rel="noopener noreferrer">Original source ↗</a>` : ""}
+          ${this.licenseUrl(app) ? `<a href="${this.licenseUrl(app)}" target="_blank" rel="noopener noreferrer">License ↗</a>` : ""}
         </div>
         ${verification.warnings.map((warning) => `<p class="store-warning">⚠ ${warning}</p>`).join("")}
         ${verification.errors.map((error) => `<p class="store-error">✕ ${error}</p>`).join("")}
@@ -242,6 +286,39 @@ export class Store {
     } catch (error) {
       this.notice(error instanceof Error ? error.message : "This application cannot be updated from the standalone Store yet.");
     }
+  }
+
+  private showThirdPartyNotices(): void {
+    const communityApps = this.catalog.all().filter((app) => app.listing === "community");
+    const dialog = this.root.querySelector<HTMLDivElement>("#dialog");
+    if (!dialog) return;
+
+    dialog.innerHTML = `
+      <div class="modal-backdrop"><section class="modal notices-modal">
+        <button class="modal-close" data-close>×</button>
+        <p class="eyebrow">THIRD-PARTY NOTICES</p>
+        <h2>Community applications</h2>
+        <p class="notices-intro">
+          These applications are independent open-source projects listed by Oqerun Store.
+          Oqerun Store does not claim ownership of their code, branding or intellectual property.
+          Each project remains governed by its own license.
+        </p>
+        <div class="notice-list">
+          ${communityApps.map((app) => {
+            const source = this.sourceUrl(app);
+            return `<article class="notice-item">
+              <div><strong>${app.name}</strong><span>${app.publisher.name} · ${app.license}</span></div>
+              ${source ? `<a href="${source}" target="_blank" rel="noopener noreferrer">Source ↗</a>` : ""}
+            </article>`;
+          }).join("")}
+        </div>
+        <p class="notices-footer">For license questions or listing corrections, contact the original project maintainer through the project's official repository.</p>
+        <button class="install-button large" data-close>Close</button>
+      </section></div>`;
+
+    dialog.querySelectorAll("[data-close]").forEach((element) =>
+      element.addEventListener("click", () => dialog.innerHTML = "")
+    );
   }
 
   private showInstalled(): void {
