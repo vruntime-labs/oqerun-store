@@ -61,32 +61,70 @@ export class Store {
     this.root.innerHTML =
       '<div class="store-shell">' +
       '<header class="topbar">' +
-      '<button class="brand-button" data-home><div class="brand-mark">O</div><div class="brand-copy"><strong>Oqerun Store</strong><span>Open applications for Oqerun OS</span></div></button>' +
-      '<label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search apps, games, publishers..." /></label>' +
-      '<button class="settings-button" data-settings aria-label="Store settings">⚙</button></header>' +
-      '<nav class="nav">' +
-      '<button class="nav-item active" data-home>Home</button><button class="nav-item" data-category-view>Categories</button>' +
-      '<button class="nav-item" data-installed>Installed <b id="installed-count"></b></button>' +
-      '<button class="nav-item" data-updates>Updates <b id="update-count"></b></button>' +
-      '<button class="nav-item" data-notices>Third-party notices</button><button class="nav-item" data-feedback>Feedback</button></nav>' +
-      '<main><section class="hero"><div><p class="eyebrow">APPLICATION STORE · v' + STORE_VERSION + '</p>' +
-      '<h1>Find software.<br><span>Install it simply.</span></h1>' +
-      '<p class="hero-copy">Discover open-source applications, PWAs, WebAssembly projects and games prepared for the Oqerun ecosystem.</p>' +
-      '<div class="hero-actions"><button class="install-button hero-button" data-home>Explore applications</button><button class="install-button secondary hero-button" data-feedback>Send feedback</button></div></div>' +
-      '<div class="hero-orbit"><div>O</div></div></section>' +
-      '<section class="content"><div class="section-heading"><div><p class="eyebrow">DISCOVER</p><h2 id="title">Featured applications</h2></div><div id="stats" class="catalog-stats"></div></div>' +
-      '<div class="discover-toolbar"><div id="cats" class="category-list"></div><div class="filter-row">' +
+      '<button class="brand-button" data-home><div class="brand-mark">O</div><div class="brand-copy"><strong>Oqerun Store</strong><span>Discover. Install. Create.</span></div></button>' +
+      '<label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search apps, games, tools..." /><kbd>Ctrl + K</kbd></label>' +
+      '<div class="top-actions"><button class="top-icon" aria-label="Notifications">♧</button><button class="top-avatar" aria-label="Account">●</button><button class="top-window" aria-label="Minimize">—</button><button class="top-window" aria-label="Maximize">□</button><button class="top-window close" aria-label="Close">×</button></div>' +
+      '</header>' +
+      '<div class="store-layout">' +
+      '<aside class="store-sidebar">' +
+      '<div class="sidebar-group">' +
+      '<button class="side-item active" data-home><span>⌂</span>Home</button>' +
+      '<button class="side-item" data-category-view><span>◫</span>Apps</button>' +
+      '<button class="side-item" data-games><span>♟</span>Games</button>' +
+      '<button class="side-item" data-category="Productivity"><span>▣</span>Productivity</button>' +
+      '<button class="side-item" data-category="Development"><span>⌘</span>Development</button>' +
+      '<button class="side-item" data-category="Media"><span>▶</span>Media</button>' +
+      '<button class="side-item" data-category="Education"><span>◇</span>Education</button>' +
+      '<button class="side-item" data-category-view><span>✣</span>Tools</button>' +
+      '</div>' +
+      '<div class="sidebar-divider"></div>' +
+      '<div class="sidebar-label">MY LIBRARY</div>' +
+      '<button class="side-item" data-installed><span>⇩</span>Installed <b id="installed-count"></b></button>' +
+      '<button class="side-item" data-updates><span>↻</span>Updates <b id="update-count"></b></button>' +
+      '<button class="side-item" data-wishlist><span>♡</span>Wishlist</button>' +
+      '<div class="sidebar-spacer"></div>' +
+      '<button class="os-promo" data-home><div class="promo-mark">O</div><div><strong>Oqerun OS</strong><span>The Web, Reimagined as an Operating System.</span></div><b>›</b></button>' +
+      '</aside>' +
+      '<section class="store-main">' +
+      '<section class="hero hero-modern"><div class="hero-content" id="hero-content"></div><div class="hero-art"><div class="hero-art-glow"></div><div class="hero-app-stack"><span>W</span><span>×</span><span>P</span></div></div></section>' +
+      '<section class="content modern-content">' +
+      '<div class="section-heading"><div><p class="eyebrow">DISCOVER</p><h2 id="title">All applications</h2></div><div id="stats" class="catalog-stats"></div></div>' +
+      '<div id="featured-grid" class="featured-grid"></div>' +
+      '<div class="discover-toolbar modern-toolbar"><div id="cats" class="category-list"></div><div class="filter-row">' +
       '<select id="type-filter"><option value="all">All types</option><option value="pwa">PWA</option><option value="web">Web</option><option value="wasm">WASM</option><option value="oqpkg">OQPKG</option><option value="external">External</option></select>' +
       '<select id="listing-filter"><option value="all">All publishers</option><option value="official">Official</option><option value="community">Community</option></select>' +
       '<select id="trust-filter"><option value="all">All trust states</option><option value="official">Official</option><option value="verified">Verified</option><option value="unverified">Unverified</option><option value="blocked">Blocked</option></select>' +
       '<select id="sort-filter"><option value="featured">Featured</option><option value="updated">Recently updated</option><option value="newest">Version</option><option value="name">Name</option></select>' +
       '<label class="toggle-filter"><input id="offline-filter" type="checkbox"> Offline</label></div></div>' +
-      '<div id="grid" class="app-grid"></div></section></main>' +
+      '<div class="all-apps-heading"><h2>All Apps</h2><span>Browse the complete catalog</span></div>' +
+      '<div id="grid" class="app-grid modern-grid"></div>' +
+      '</section>' +
+      '</section>' +
+      '<aside class="store-rail">' +
+      '<section class="rail-panel"><div class="rail-heading"><div><span class="rail-kicker hot">HOT TODAY</span><h2>Popular This Week</h2><p>Apps the Oqerun community is discovering.</p></div><button class="rail-link" data-category-view>View all →</button></div><div id="popular-list" class="popular-list"></div></section>' +
+      '<section class="rail-panel"><div class="rail-heading"><div><span class="rail-kicker new">NEW</span><h2>New &amp; Updated</h2><p>Fresh additions and recent releases.</p></div><button class="rail-link" data-category-view>View all →</button></div><div id="updated-list" class="updated-list"></div></section>' +
+      '<section class="rail-publish"><div class="publish-art">✦</div><div><h2>Publish Your App</h2><p>Be part of the Oqerun ecosystem. Share your creation with the world.</p><button class="install-button large" data-feedback>Learn More</button></div></section>' +
+      '</aside></div>' +
       '<footer class="store-footer">Oqerun Store ' + STORE_VERSION + ' · MIT · VRuntime Labs · Community software remains under its original licenses.</footer>' +
       '<div id="dialog"></div></div>';
 
     this.applyTheme();
     this.bind();
+    this.root.querySelectorAll<HTMLButtonElement>("[data-category]").forEach(b => b.addEventListener("click", () => {
+      this.category = b.dataset.category ?? "All";
+      this.query = "";
+      const search = this.root.querySelector<HTMLInputElement>("#search");
+      if (search) search.value = "";
+      this.renderCategories();
+      this.renderApps();
+    }));
+    this.root.querySelector("[data-games]")?.addEventListener("click", () => {
+      this.category = "Games";
+      this.query = "";
+      this.renderCategories();
+      this.renderApps();
+    });
+    this.root.querySelector("[data-wishlist]")?.addEventListener("click", () => this.notice("Wishlist is coming to the Oqerun Store account system."));
     this.renderCategories();
     this.renderApps();
     this.updateBadges();
@@ -165,18 +203,51 @@ export class Store {
     const grid = this.root.querySelector<HTMLDivElement>("#grid");
     const title = this.root.querySelector<HTMLHeadingElement>("#title");
     const stats = this.root.querySelector<HTMLDivElement>("#stats");
-    if (!grid || !title || !stats) return;
+    const featuredGrid = this.root.querySelector<HTMLDivElement>("#featured-grid");
+    const popularList = this.root.querySelector<HTMLDivElement>("#popular-list");
+    const updatedList = this.root.querySelector<HTMLDivElement>("#updated-list");
+    const heroContent = this.root.querySelector<HTMLDivElement>("#hero-content");
+    if (!grid || !title || !stats || !featuredGrid || !popularList || !updatedList || !heroContent) return;
 
-    let apps = this.filteredApps();
+    const apps = this.filteredApps();
+    const all = this.catalog.all();
     const defaultView = !this.query && this.category === "All" && this.typeFilter === "all" && this.listingFilter === "all" && this.trustFilter === "all" && !this.offlineOnly && this.sort === "featured";
-    title.textContent = this.query
-      ? "Search results"
-      : defaultView
-        ? "All applications"
-        : this.category === "All"
-          ? "All applications"
-          : this.category;
-    stats.textContent = apps.length + " application" + (apps.length === 1 ? "" : "s") + " · " + this.catalog.all().length + " in catalog";
+    title.textContent = this.query ? "Search results" : defaultView ? "All applications" : this.category === "All" ? "All applications" : this.category;
+    stats.textContent = apps.length + " application" + (apps.length === 1 ? "" : "s") + " · " + all.length + " in catalog";
+
+    const featured = all.filter(a => a.featured).slice(0, 5);
+    const hero = featured[0] ?? all[0];
+    if (hero) {
+      const heroIcon = hero.metadata?.iconUrl
+        ? '<img src="' + esc(hero.metadata.iconUrl) + '" alt="" loading="eager">'
+        : '<span>' + esc(hero.icon) + '</span>';
+      heroContent.innerHTML =
+        '<span class="hero-pill">Featured</span><h1>' + esc(hero.name) + '</h1><h3>Create. Edit. Collaborate.</h3>' +
+        '<p>' + esc(hero.description) + '</p><div class="hero-tags"><span>' + esc(hero.category) + '</span><span>' + (hero.listing === "official" ? "Official" : "Community") + '</span><span>Free</span></div>' +
+        '<div class="hero-actions"><button class="install-button hero-button" data-install="' + esc(hero.id) + '">⇩ Install</button><button class="install-button secondary hero-button" data-details="' + esc(hero.id) + '">View details</button></div>';
+      const art = this.root.querySelector<HTMLDivElement>(".hero-app-stack");
+      if (art) art.innerHTML = heroIcon;
+      this.bindAppButtons(heroContent);
+    } else {
+      heroContent.innerHTML = '<span class="hero-pill">Oqerun Store</span><h1>Discover software.</h1><p>Open-source applications for Oqerun OS.</p>';
+    }
+
+    const showDiscovery = defaultView && !this.query && this.category === "All";
+    featuredGrid.innerHTML = showDiscovery && featured.length
+      ? '<div class="subsection-heading"><h2>Featured Apps</h2><button class="rail-link" data-category-view>View all →</button></div><div class="featured-cards">' + featured.map(a => this.card(a, true)).join("") + '</div>'
+      : "";
+    this.bindAppButtons(featuredGrid);
+
+    const popular = all.filter(a => a.metadata?.reviewStatus !== "blocked").slice().sort((a,b) => {
+      const af = a.featured ? 1 : 0, bf = b.featured ? 1 : 0;
+      return bf - af || a.name.localeCompare(b.name);
+    }).slice(0, 5);
+    popularList.innerHTML = popular.map((a, i) => this.railApp(a, i + 1)).join("");
+    this.bindAppButtons(popularList);
+
+    const updated = all.filter(a => a.metadata?.reviewStatus !== "blocked").slice().sort((a,b) => String(b.metadata?.lastUpdated ?? "").localeCompare(String(a.metadata?.lastUpdated ?? ""))).slice(0, 6);
+    updatedList.innerHTML = updated.map(a => this.railUpdated(a)).join("");
+    this.bindAppButtons(updatedList);
 
     if (!apps.length) {
       grid.innerHTML = '<div class="empty-state"><strong>No applications found.</strong><span>Try another search or adjust the filters.</span></div>';
@@ -201,23 +272,34 @@ export class Store {
     }));
   }
 
-  private card(app: Application): string {
+  private card(app: Application, compact = false): string {
     const installed = this.registry.get(app.id);
     const update = installed ? this.updates.findUpdates([installed], [app])[0] : undefined;
     const trust = app.metadata?.reviewStatus ?? (app.listing === "official" ? "official" : "unverified");
     const listing = '<span class="listing-badge ' + app.listing + '">' + (app.listing === "official" ? "Official" : "Community") + "</span>";
-    const trustBadge = '<span class="trust-badge ' + trust + '">' + (trust === "official" ? "✓ Official" : trust === "verified" ? "✓ Verified" : trust === "blocked" ? "Blocked" : "Unverified") + "</span>";
-
     let action = '<button class="install-button" data-install="' + esc(app.id) + '">Install</button>';
-    if (update) action = '<button class="install-button update-button" data-update="' + esc(app.id) + '">Update to ' + esc(app.version) + "</button>";
-    else if (installed && app.installation.url) action = '<div class="card-actions"><button class="install-button" data-open="' + esc(app.id) + '">Open</button><button class="icon-button" data-details="' + esc(app.id) + '">Details</button></div>';
-    else if (installed) action = '<button class="install-button" data-details="' + esc(app.id) + '">Installed · ' + esc(installed.version) + "</button>";
+    if (update) action = '<button class="install-button update-button" data-update="' + esc(app.id) + '">Update</button>';
+    else if (installed && app.installation.url) action = '<div class="card-actions"><button class="install-button" data-open="' + esc(app.id) + '">Open</button><button class="icon-button" data-details="' + esc(app.id) + '">•••</button></div>';
+    else if (installed) action = '<button class="install-button" data-details="' + esc(app.id) + '">Installed</button>';
 
-    return '<article class="app-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></button>' +
-      '<div class="app-card-body"><div class="app-card-title"><h3>' + esc(app.name) + "</h3>" + listing + trustBadge + "</div>" +
-      '<p class="publisher">' + esc(app.publisher.name) + " · v" + esc(app.version) + '</p><p class="description">' + esc(app.description) + "</p>" +
-      '<div class="app-meta"><span>' + esc(app.category) + "</span><span>" + esc(app.license) + "</span><span>" + esc(app.type) + "</span>" +
-      (app.metadata?.offline ? "<span>Offline</span>" : "") + "</div>" + action + "</div></article>";
+    if (compact) {
+      return '<article class="featured-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></button>' +
+        '<div class="featured-card-title"><h3>' + esc(app.name) + '</h3>' + listing + '</div><p class="publisher">v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</p><p class="description">' + esc(app.description) + '</p>' +
+        '<div class="app-meta"><span>' + esc(app.category) + '</span><span>' + esc(app.type) + '</span></div>' + action + '</article>';
+    }
+
+    return '<article class="app-card modern-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></button>' +
+      '<div class="app-card-body"><div class="app-card-title"><h3>' + esc(app.name) + "</h3>" + listing + '</div>' +
+      '<p class="publisher">v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</p><p class="description">' + esc(app.description) + "</p>" +
+      '<div class="app-meta"><span>' + esc(app.category) + "</span><span>" + esc(app.type) + "</span>" + (app.metadata?.offline ? "<span>Offline</span>" : "") + "</div>" + action + "</div></article>";
+  }
+
+  private railApp(app: Application, rank: number): string {
+    return '<article class="popular-row"><span class="rank">' + rank + '</span><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>' + esc(app.category) + ' · ' + (app.listing === "official" ? "Official" : "Community") + '</span></div><button class="rail-install" data-install="' + esc(app.id) + '">Install</button></article>';
+  }
+
+  private railUpdated(app: Application): string {
+    return '<article class="updated-row"><button class="rail-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : esc(app.icon)) + '</button><div class="rail-app-copy"><strong>' + esc(app.name) + '</strong><span>v' + esc(app.version) + ' · ' + esc(app.publisher.name) + '</span></div><button class="rail-install" data-install="' + esc(app.id) + '">Install</button></article>';
   }
 
   private details(app: Application): void {
