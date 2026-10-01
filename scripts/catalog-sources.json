@@ -1,0 +1,10 @@
+{
+  "queries": [
+    "topic:pwa stars:>=5 archived:false",
+    "topic:html5-game stars:>=5 archived:false",
+    "topic:webassembly stars:>=5 archived:false",
+    "topic:opensource-game stars:>=5 archived:false"
+  ],
+  "perQuery": 25,
+  "maxApps": 80
+}
