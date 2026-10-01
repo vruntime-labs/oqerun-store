@@ -31,8 +31,8 @@ export class Store {
       ...app,
       metadata: {
         ...app.metadata,
-        iconUrl: assets?.iconUrl ?? app.metadata?.iconUrl,
-        screenshots: assets?.screenshots ? [...assets.screenshots] : app.metadata?.screenshots
+        iconUrl: app.metadata?.iconUrl ?? assets?.iconUrl,
+        screenshots: app.metadata?.screenshots ?? (assets?.screenshots ? [...assets.screenshots] : undefined)
       }
     };
   }));
