@@ -88,6 +88,11 @@ async function discover(homepage) {
       }
     }
 
+    const screenshotMeta = [...html.matchAll(/<meta[^>]+(?:property|name)=["'](?:og:image|twitter:image|screenshot)["'][^>]+content=["']([^"']+)["']/gi)]
+      .map(match => resolve(match[1], homepage))
+      .filter(Boolean);
+    if (!result.screenshots.length && screenshotMeta.length) result.screenshots = screenshotMeta.slice(0, 6);
+
     const og = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
     const ogUrl = og?.[1] ? resolve(og[1], homepage) : undefined;
 
