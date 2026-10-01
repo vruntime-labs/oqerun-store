@@ -1,3 +1,18 @@
 import type { Application } from '../models/App';
 import type { InstallationProvider } from './InstallationProvider';
-export class OqpkgProvider implements InstallationProvider { supports(a:Application){return a.type==='oqpkg';} async install(_a:Application):Promise<void>{throw new Error('Native .oqpkg installation requires the Oqerun OS installation bridge.');} }
+import { InstallationBridge } from '../core/InstallationBridge';
+
+export class OqpkgProvider implements InstallationProvider {
+  private readonly bridge = new InstallationBridge();
+
+  supports(a: Application): boolean {
+    return a.type === 'oqpkg';
+  }
+
+  async install(a: Application): Promise<void> {
+    if (!this.bridge.isAvailable()) {
+      throw new Error('Native .oqpkg installation is only available inside Oqerun OS.');
+    }
+    await this.bridge.install(a);
+  }
+}
