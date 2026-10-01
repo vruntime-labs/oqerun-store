@@ -79,7 +79,7 @@ export class DownloadManager {
           RELEASE_EXTENSIONS.some(ext => asset.name.toLowerCase().endsWith(ext))
         );
 
-        const preferred = assets.find(asset => this.preferredAsset(asset.name, app)) ?? assets[0];
+        const preferred = this.preferredAsset(assets, app) ?? assets[0];
         if (preferred?.browser_download_url) {
           return {
             url: preferred.browser_download_url,
@@ -118,13 +118,15 @@ export class DownloadManager {
     }
   }
 
-  private preferredAsset(name: string, app: Application): GitHubReleaseAsset | undefined {
-    const lower = name.toLowerCase();
+  private preferredAsset(assets: GitHubReleaseAsset[], app: Application): GitHubReleaseAsset | undefined {
     const typeOrder = app.type === "wasm"
       ? [".wasm", ".zip", ".tar.gz", ".tgz"]
       : [".oqpkg", ".zip", ".tar.gz", ".tgz", ".wasm", ".html", ".webmanifest", ".json"];
-    return typeOrder.reduce<GitHubReleaseAsset | undefined>((found, ext) =>
-      found ?? (lower.endsWith(ext) ? { name, browser_download_url: "" } : undefined), undefined);
+    for (const ext of typeOrder) {
+      const match = assets.find(asset => asset.name.toLowerCase().endsWith(ext));
+      if (match) return match;
+    }
+    return undefined;
   }
 
   private fileName(name: string, version: string): string {
