@@ -17,7 +17,13 @@ export const catalogData: Application[] = [
     compatibility: { minimumOqerunVersion: '0.1.0' },
     installation: { method: 'web', url: 'https://vruntime-labs.github.io/oqerun-office/' },
     permissions: ['filesystem.read', 'filesystem.write', 'network'],
-    fileAssociations: ['.oqdoc', '.oqsheet', '.oqslide', '.docx', '.xlsx', '.pptx']
+    fileAssociations: ['.oqdoc', '.oqsheet', '.oqslide', '.docx', '.xlsx', '.pptx'],
+    metadata: {
+      iconUrl: '/oqerun-store/icons/oqerun-office.svg',
+      tags: ['office', 'writer', 'sheets', 'slides', 'productivity'],
+      versionStrategy: 'catalog',
+      reviewStatus: 'official'
+    }
   },
   {
     id: 'com.vruntime.oqerun.weebpaint',
