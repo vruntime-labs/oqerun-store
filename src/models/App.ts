@@ -21,6 +21,7 @@ export interface InstallationSource {
 }
 
 export interface ApplicationMetadata {
+  iconUrl?: string;
   screenshots?: string[];
   homepage?: string;
   changelogUrl?: string;
