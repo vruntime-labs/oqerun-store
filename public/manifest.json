@@ -1,3 +1,21 @@
 {
-  "name":"Oqerun Store","short_name":"Store","description":"The official open-source application store for Oqerun OS.","start_url":"/oqerun-store/","display":"standalone","theme_color":"#0b1020","background_color":"#0b1020","icons":[]
+  "name": "Oqerun Store",
+  "short_name": "Store",
+  "description": "Open-source application store for Oqerun OS.",
+  "start_url": "/oqerun-store/",
+  "scope": "/oqerun-store/",
+  "id": "/oqerun-store/",
+  "display": "standalone",
+  "theme_color": "#0b1020",
+  "background_color": "#0b1020",
+  "categories": ["productivity", "utilities", "games"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/oqerun-store/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
