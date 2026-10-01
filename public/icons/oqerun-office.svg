@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title>Oqerun Office</title>
+  <desc>Oqerun Office application icon</desc>
+  <defs>
+    <linearGradient id="bg" x1="40" y1="24" x2="468" y2="488" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2d7cff"/>
+      <stop offset="0.52" stop-color="#3155e8"/>
+      <stop offset="1" stop-color="#6b35d8"/>
+    </linearGradient>
+    <linearGradient id="sheet" x1="154" y1="105" x2="371" y2="408" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dbe7ff"/>
+    </linearGradient>
+    <filter id="shadow" x="90" y="75" width="332" height="374" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#07183f" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#bg)"/>
+  <path d="M0 350C115 302 180 366 279 318C366 276 425 290 512 240V512H0Z" fill="#111f8f" opacity=".2"/>
+  <g filter="url(#shadow)">
+    <rect x="126" y="82" width="260" height="348" rx="34" fill="url(#sheet)"/>
+    <path d="M312 82v82h74" fill="#b9ccff"/>
+    <path d="M312 82l74 82h-50c-13 0-24-11-24-24V82Z" fill="#eef4ff"/>
+    <rect x="164" y="190" width="184" height="18" rx="9" fill="#315eea" opacity=".92"/>
+    <rect x="164" y="226" width="132" height="14" rx="7" fill="#7895e9"/>
+    <rect x="164" y="264" width="184" height="14" rx="7" fill="#7895e9"/>
+    <rect x="164" y="302" width="150" height="14" rx="7" fill="#7895e9"/>
+    <circle cx="207" cy="365" r="27" fill="#2d7cff"/>
+    <path d="M195 365l9 9 18-20" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="275" cy="365" r="27" fill="#36b5e9"/>
+    <path d="M263 365h24M275 353v24" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="331" cy="365" r="27" fill="#7554df"/>
+    <path d="M319 365h24" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>
