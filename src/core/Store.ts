@@ -63,7 +63,7 @@ export class Store {
       '<header class="topbar">' +
       '<button class="brand-button" data-home><div class="brand-mark">O</div><div class="brand-copy"><strong>Oqerun Store</strong><span>Discover. Install. Create.</span></div></button>' +
       '<label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search apps, games, tools..." /><kbd>Ctrl + K</kbd></label>' +
-      '<div class="top-actions"><button class="top-icon" aria-label="Notifications">♧</button><button class="top-avatar" aria-label="Account">●</button><button class="top-window" aria-label="Minimize">—</button><button class="top-window" aria-label="Maximize">□</button><button class="top-window close" aria-label="Close">×</button></div>' +
+      '<div class="top-actions"><button class="top-icon" data-notifications aria-label="Notifications">♧</button><button class="top-avatar" data-account aria-label="Account">●</button></div>' +
       '</header>' +
       '<div class="store-layout">' +
       '<aside class="store-sidebar">' +
@@ -125,6 +125,8 @@ export class Store {
       this.renderApps();
     });
     this.root.querySelector("[data-wishlist]")?.addEventListener("click", () => this.notice("Wishlist is coming to the Oqerun Store account system."));
+    this.root.querySelector("[data-notifications]")?.addEventListener("click", () => this.notice("Notifications will appear here when Store updates or security events need your attention."));
+    this.root.querySelector("[data-account]")?.addEventListener("click", () => this.notice("Accounts are not connected yet. Oqerun Store can be used without an account."));
     this.root.querySelector("[data-os]")?.addEventListener("click", () => {
       window.open("https://vruntime-labs.github.io/oqerun-os/", "_blank", "noopener,noreferrer");
     });
