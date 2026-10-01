@@ -197,7 +197,7 @@ export class Store {
     else if (installed && app.installation.url) action = '<div class="card-actions"><button class="install-button" data-open="' + esc(app.id) + '">Open</button><button class="icon-button" data-details="' + esc(app.id) + '">Details</button></div>';
     else if (installed) action = '<button class="install-button" data-details="' + esc(app.id) + '">Installed · ' + esc(installed.version) + "</button>";
 
-    return '<article class="app-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + esc(app.icon) + '</button>' +
+    return '<article class="app-card"><button class="app-icon" data-details="' + esc(app.id) + '">' + (app.metadata?.iconUrl ? '<img src="' + esc(app.metadata.iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></button>' +
       '<div class="app-card-body"><div class="app-card-title"><h3>' + esc(app.name) + "</h3>" + listing + trustBadge + "</div>" +
       '<p class="publisher">' + esc(app.publisher.name) + " · v" + esc(app.version) + '</p><p class="description">' + esc(app.description) + "</p>" +
       '<div class="app-meta"><span>' + esc(app.category) + "</span><span>" + esc(app.license) + "</span><span>" + esc(app.type) + "</span>" +
@@ -215,6 +215,8 @@ export class Store {
     const trust = app.metadata?.reviewStatus ?? (app.listing === "official" ? "official" : "unverified");
     const source = this.sourceUrl(app);
     const homepage = app.metadata?.homepage;
+    const iconUrl = app.metadata?.iconUrl;
+    const screenshots = app.metadata?.screenshots ?? [];
 
     let action = update
       ? '<button class="install-button large" data-modal-update>Update to ' + esc(app.version) + "</button>"
@@ -235,7 +237,7 @@ export class Store {
       (app.installation.sha256 ? '<span>SHA-256<strong class="hash">' + esc(app.installation.sha256) + "</strong></span>" : "");
 
     dialog.innerHTML = '<div class="modal-backdrop"><section class="modal app-details-modal"><button class="modal-close" data-close>×</button>' +
-      '<div class="modal-icon">' + esc(app.icon) + '</div><div class="badge-row"><span class="listing-badge ' + app.listing + '">' + (app.listing === "official" ? "Official" : "Community") + '</span><span class="trust-badge ' + trust + '">' + esc(trust) + "</span></div>" +
+      '<div class="modal-icon">' + (iconUrl ? '<img src="' + esc(iconUrl) + '" alt="" loading="lazy">' : '') + '<span>' + esc(app.icon) + '</span></div><div class="badge-row"><span class="listing-badge ' + app.listing + '">' + (app.listing === "official" ? "Official" : "Community") + '</span><span class="trust-badge ' + trust + '">' + esc(trust) + "</span></div>" +
       '<p class="eyebrow">' + esc(app.category) + " · " + esc(app.type) + '</p><h2>' + esc(app.name) + "</h2><p class=\"modal-publisher\">" + esc(app.publisher.name) + " · v" + esc(app.version) + "</p><p>" + esc(app.description) + "</p>" +
       '<div class="listing-notice ' + app.listing + '"><strong>' + (app.listing === "community" ? "Independent community project" : "Official Oqerun application") + "</strong><span>" +
       (app.listing === "community" ? "The original project, publisher, branding and license remain separate from VRuntime Labs." : "Published by VRuntime Labs for the Oqerun ecosystem.") + "</span></div>" +
