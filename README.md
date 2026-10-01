@@ -12,7 +12,7 @@ The UI uses one generic installation flow. Format-specific behavior belongs to i
 
 ## Status
 
-Early development — v0.1.0. The standalone client can browse and search the catalog. Native installation is intentionally not faked; the Oqerun OS installation bridge will be connected when the OS API is ready.
+Store v0.2.0. The standalone client supports discovery, filtering, trust metadata, application details, installed-app tracking, update management, settings, feedback, and automated GitHub community catalog discovery. Native installation is intentionally not faked; the Oqerun OS installation bridge will be connected when the OS API is ready.
 
 ## License
 
