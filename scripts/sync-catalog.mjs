@@ -17,6 +17,58 @@ async function github(path) {
   return response.json();
 }
 
+async function discoverAssets(homepage) {
+  const result = { iconUrl: undefined, screenshots: [] };
+  try {
+    const page = await fetch(homepage, { headers: { "User-Agent": "Oqerun-Store-Catalog-Sync" } });
+    if (!page.ok) return result;
+    const html = await page.text();
+    const origin = new URL(homepage);
+    const resolve = (value) => {
+      try { return new URL(value, origin).toString(); } catch { return undefined; }
+    };
+
+    const manifestMatch = html.match(/<link[^>]+rel=["'][^"']*manifest[^"']*["'][^>]+href=["']([^"']+)["']/i)
+      || html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*manifest[^"']*["']/i);
+
+    if (manifestMatch?.[1]) {
+      const manifestUrl = resolve(manifestMatch[1]);
+      if (manifestUrl) {
+        const manifestResponse = await fetch(manifestUrl, { headers: { "User-Agent": "Oqerun-Store-Catalog-Sync" } });
+        if (manifestResponse.ok) {
+          const manifest = await manifestResponse.json();
+          const icons = Array.isArray(manifest.icons) ? manifest.icons : [];
+          const icon = icons
+            .filter((item) => item?.src)
+            .sort((a, b) => (parseInt(b.sizes?.split("x")[0] || "0") - parseInt(a.sizes?.split("x")[0] || "0")))[0];
+          if (icon) result.iconUrl = resolve(icon.src);
+          if (Array.isArray(manifest.screenshots)) {
+            result.screenshots = manifest.screenshots.map((item) => resolve(item?.src)).filter(Boolean).slice(0, 6);
+          }
+        }
+      }
+    }
+
+    if (!result.iconUrl) {
+      const iconMatch = html.match(/<link[^>]+(?:rel=["'][^"']*(?:icon|apple-touch-icon)[^"']*)["'][^>]+href=["']([^"']+)["']/i)
+        || html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*(?:icon|apple-touch-icon)[^"']*["']/i);
+      if (iconMatch?.[1]) result.iconUrl = resolve(iconMatch[1]);
+    }
+
+    if (!result.iconUrl) {
+      const og = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
+      if (og?.[1]) result.iconUrl = resolve(og[1]);
+    }
+
+    if (!result.screenshots.length) {
+      const og = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)
+        || html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+      if (og?.[1]) result.screenshots = [resolve(og[1])].filter(Boolean);
+    }
+  } catch {}
+  return result;
+}
+
 function category(repo) {
   const topics = new Set(repo.topics ?? []);
   if ([...topics].some(t => ["game", "games", "html5-game", "opensource-game"].includes(t))) return "Games";
@@ -56,8 +108,7 @@ for (const repo of repositories.values()) {
   if (!/^https?:\/\//i.test(repo.homepage)) continue;
 
   const safeId = "community.github." + repo.full_name.toLowerCase().replace(/[^a-z0-9]+/g, ".");
-  const appType = type(repo);
-  apps.push({
+  const appType = type(repo);\n  const assets = await discoverAssets(repo.homepage);\n  apps.push({
     id: safeId,
     name: repo.name.replace(/[-_]+/g, " "),
     version: "0.0.0",
@@ -65,7 +116,7 @@ for (const repo of repositories.values()) {
     category: category(repo),
     icon: icon(repo),
     featured: false,
-    publisher: { name: repo.owner?.login || "GitHub community", verified: false },
+    publisher: { name: repo.owner?.login || "GitHub community", verified: false },\n    metadata: {\n      iconUrl: assets.iconUrl,\n      screenshots: assets.screenshots,
     listing: "community",
     source: { type: "github", repository: repo.full_name },
     license: repo.license.spdx_id,
