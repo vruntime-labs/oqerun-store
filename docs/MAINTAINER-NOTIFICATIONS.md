@@ -16,13 +16,13 @@ The notification does not publish the project as official or verified, and it do
 
 ## Required secret
 
-The Store repository's built-in `GITHUB_TOKEN` is scoped to the Store repository. It should not be used to create issues in unrelated repositories. GitHub documents that cross-repository issue creation requires a token with issue-write access to the target repository. citeturn1search0
+The Store repository's built-in `GITHUB_TOKEN` is scoped to the Store repository. A separate token is required for creating issues in unrelated repositories.
 
 Create a repository secret named:
 
 `MAINTAINER_GITHUB_TOKEN`
 
-A fine-grained personal access token should be limited to the repositories where notifications are allowed and granted **Issues: Read and write**. GitHub recommends least-privilege permissions for workflow secrets. citeturn1search2turn3search4
+A fine-grained personal access token should be limited to the repositories where notifications are allowed and granted **Issues: Read and write**. Keep the token least-privileged.
 
 Without this secret, the notification workflow safely skips external issue creation. Catalog discovery continues to work.
 
@@ -43,4 +43,4 @@ In the Store repository:
 3. Use a fine-grained GitHub token with only the required repository access and **Issues: Read and write**.
 4. Run **Actions → Notify Community App Maintainers → Run workflow**.
 
-GitHub Actions permissions should remain minimal; the notification workflow itself only requests read access to the Store repository. citeturn3search3
+The notification workflow only requests read access to the Store repository.
