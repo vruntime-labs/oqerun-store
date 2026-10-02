@@ -297,4 +297,28 @@ export const catalogData: Application[] = [
     permissions: ['filesystem.read', 'filesystem.write', 'network'],
     fileAssociations: ['.ics']
   }
+  {
+    id: 'com.vruntime.shortforge.ai',
+    name: 'ShortForge AI',
+    version: '1.0.0',
+    description: 'Free, open-source video repurposing studio that turns long videos or YouTube URLs into vertical Shorts with automatic hook detection, local Whisper subtitles, batch generation and optional B-roll.',
+    category: 'Media',
+    icon: '✂',
+    featured: true,
+    publisher: { name: 'VRuntime Labs', verified: true },
+    listing: 'official',
+    source: { type: 'github', repository: 'vruntime-labs/shortforge-ai' },
+    license: 'MIT',
+    type: 'web',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'web', url: 'https://vruntime-labs.github.io/shortforge-ai/' },
+    permissions: ['network', 'filesystem.read', 'filesystem.write'],
+    fileAssociations: ['.mp4', '.mov', '.webm'],
+    metadata: {
+      homepage: 'https://vruntime-labs.github.io/shortforge-ai/',
+      tags: ['video', 'shorts', 'youtube', 'creator', 'ffmpeg', 'whisper', 'ai'],
+      versionStrategy: 'catalog',
+      reviewStatus: 'official'
+    }
+  },
 ];
