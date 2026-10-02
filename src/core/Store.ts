@@ -407,9 +407,15 @@ export class Store {
     const browserLaunch = (app.type === "web" || app.type === "pwa") && Boolean(app.installation.url);
     const downloadable = Boolean(app.installation.downloadUrl) || (app.source.type === "github" && Boolean(app.source.repository));
 
+    // When Store is embedded in Oqerun OS, every compatible catalog app gets
+    // a single, clear Install action. The OS decides how that app is stored
+    // and launched through the installation bridge.
+    if (this.installationBridge.isAvailable()) {
+      return '<button class="' + cls + '" data-install="' + esc(app.id) + '">Install</button>';
+    }
+
     if (browserLaunch) return '<button class="' + cls + '" data-open="' + esc(app.id) + '">Open ↗</button>';
     if (app.type === "oqpkg") {
-      if (this.installationBridge.isAvailable()) return '<button class="' + cls + '" data-install="' + esc(app.id) + '">Install</button>';
       if (downloadable) return '<button class="' + cls + '" data-download="' + esc(app.id) + '">Download</button>';
       return '<a class="' + cls + ' action-disabled-link" href="https://vruntime-labs.github.io/oqerun-os/" target="_blank" rel="noopener noreferrer">Open Oqerun OS ↗</a>';
     }
