@@ -157,7 +157,7 @@ export class SubmissionScanner {
       checks.push({
         label: "Live web test",
         status: live.status === "verified" ? "pass" : "warn",
-        detail: live.status === "verified" ? "The supplied/inferred URL responded as a web page." : live.detail
+        detail: live.status === "verified" ? "The supplied/inferred URL responded as a web page." : live.status === "unverified" ? live.detail : "No live URL was available."
       });
     } else {
       checks.push({ label: "Live web test", status: "warn", detail: "No live HTTPS URL was provided or inferred." });
