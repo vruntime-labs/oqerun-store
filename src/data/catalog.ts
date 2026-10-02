@@ -341,4 +341,23 @@ export const catalogData: Application[] = [
     permissions: ['network'],
     metadata: { homepage: 'https://hoppscotch.io/', offline: true, versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
   },
+
+  {
+    id: 'com.oqerun.devdocs',
+    name: 'DevDocs',
+    version: 'Rolling',
+    description: 'Fast API documentation browser with instant search, offline support, mobile support and keyboard navigation.',
+    category: 'Development',
+    icon: 'D',
+    featured: true,
+    publisher: { name: 'freeCodeCamp', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'freeCodeCamp/devdocs' },
+    license: 'MPL-2.0',
+    type: 'pwa',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'pwa', url: 'https://devdocs.io/' },
+    permissions: [],
+    metadata: { homepage: 'https://devdocs.io/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
+  },
 ];
