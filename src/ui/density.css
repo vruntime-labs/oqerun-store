@@ -1,0 +1,329 @@
+/* Oqerun Store — UI density refinement
+   Reduces visual crowding without removing Store functionality. */
+
+.store-shell{
+  --density-gap:12px;
+}
+
+.store-layout{
+  grid-template-columns:200px minmax(0,1fr) 320px;
+}
+
+.store-sidebar{
+  padding:16px 10px 12px;
+}
+
+.sidebar-group{
+  gap:2px;
+}
+
+.side-item{
+  padding:8px 11px;
+  gap:11px;
+  font-size:12px;
+}
+
+.sidebar-divider{
+  margin:13px 8px;
+}
+
+.os-promo{
+  margin-top:12px;
+  padding:10px;
+}
+
+.hero-modern{
+  min-height:230px;
+  margin:16px 16px 0;
+  padding:24px 26px;
+}
+
+.hero-modern h1{
+  font-size:30px;
+}
+
+.hero-modern h3{
+  font-size:15px;
+}
+
+.hero-modern p{
+  margin:8px 0;
+  max-width:520px;
+  font-size:12px;
+}
+
+.hero-modern .hero-actions{
+  margin-top:11px;
+}
+
+.store-mode-note{
+  margin:9px 16px 0;
+  padding:8px 11px;
+}
+
+.modern-content{
+  padding:20px 16px 32px;
+}
+
+.modern-content .section-heading h2{
+  font-size:19px;
+}
+
+.catalog-stats{
+  font-size:10px;
+}
+
+.discover-toolbar{
+  margin-top:11px;
+  gap:8px;
+}
+
+.category-list{
+  gap:4px;
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  padding-bottom:2px;
+  scrollbar-width:none;
+}
+
+.category-list::-webkit-scrollbar{
+  display:none;
+}
+
+.category-chip{
+  flex:0 0 auto;
+  padding:6px 9px;
+  font-size:10px;
+}
+
+.modern-toolbar .filter-row{
+  gap:6px;
+}
+
+.filter-row select,
+.toggle-filter{
+  padding:7px 9px;
+  font-size:10px;
+}
+
+.featured-grid{
+  margin-top:15px;
+}
+
+.subsection-heading{
+  margin-bottom:8px;
+}
+
+.subsection-heading h2{
+  font-size:16px;
+}
+
+.featured-cards{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+}
+
+.featured-card,
+.modern-card{
+  padding:10px;
+  border-radius:10px;
+}
+
+.featured-card .app-icon,
+.modern-card .app-icon{
+  width:44px;
+  height:44px;
+  border-radius:11px;
+}
+
+.featured-card .description,
+.modern-card .description{
+  min-height:36px;
+  font-size:9px;
+}
+
+.featured-card .app-meta,
+.modern-card .app-meta{
+  margin:6px 0;
+}
+
+.all-apps-heading{
+  margin:20px 0 8px;
+}
+
+.all-apps-heading h2{
+  font-size:16px;
+}
+
+.modern-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+
+.modern-card{
+  min-height:198px;
+}
+
+.modern-card h3{
+  font-size:12px;
+}
+
+.modern-card .publisher{
+  margin:3px 0 6px;
+}
+
+.modern-card .install-button{
+  padding:6px 7px;
+}
+
+.app-card-action-row{
+  margin-top:6px;
+}
+
+.wishlist-button{
+  width:31px;
+  height:31px;
+  flex-basis:31px;
+}
+
+.store-rail{
+  padding:16px 12px;
+  gap:10px;
+}
+
+.rail-panel{
+  padding:12px;
+}
+
+.rail-heading h2{
+  font-size:14px;
+}
+
+.rail-heading p{
+  font-size:9px;
+}
+
+.popular-list,
+.updated-list{
+  margin-top:8px;
+}
+
+.popular-row,
+.updated-row{
+  padding:6px 0;
+  gap:6px;
+}
+
+.rail-icon{
+  width:30px;
+  height:30px;
+}
+
+.rail-app-copy strong{
+  font-size:9px;
+}
+
+.rail-app-copy span{
+  font-size:7px;
+}
+
+.rail-install{
+  padding:5px 6px;
+  font-size:7px;
+}
+
+.rail-actions .wishlist-button{
+  width:24px;
+  height:24px;
+  flex-basis:24px;
+  font-size:12px;
+}
+
+.rail-publish{
+  padding:13px;
+  gap:9px;
+}
+
+.publish-art{
+  width:42px;
+  height:42px;
+  flex-basis:42px;
+  font-size:24px;
+}
+
+.rail-publish h2{
+  font-size:12px;
+}
+
+.rail-publish p{
+  margin:4px 0 7px;
+  font-size:8px;
+}
+
+.rail-publish .install-button{
+  padding:6px 9px;
+}
+
+.store-footer{
+  padding:15px 18px 24px 218px;
+}
+
+@media(max-width:1180px){
+  .store-layout{
+    grid-template-columns:190px minmax(0,1fr);
+  }
+  .featured-cards{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  .modern-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(max-width:900px){
+  .store-layout{
+    grid-template-columns:180px minmax(0,1fr);
+  }
+  .featured-cards{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .modern-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:820px){
+  .hero-modern{
+    min-height:210px;
+  }
+  .modern-content{
+    padding:18px 12px 28px;
+  }
+  .store-mode-note{
+    margin:8px 12px 0;
+  }
+}
+
+@media(max-width:520px){
+  .hero-modern{
+    min-height:190px;
+    padding:20px;
+  }
+  .hero-modern h1{
+    font-size:25px;
+  }
+  .hero-modern p{
+    font-size:11px;
+  }
+  .featured-cards,
+  .modern-grid{
+    grid-template-columns:1fr;
+  }
+  .filter-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  .modern-toolbar .filter-row{
+    justify-content:stretch;
+  }
+}
