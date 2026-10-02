@@ -315,6 +315,7 @@ export const catalogData: Application[] = [
     permissions: ['network', 'filesystem.read', 'filesystem.write'],
     fileAssociations: ['.mp4', '.mov', '.webm'],
     metadata: {
+      iconUrl: '/oqerun-store/icons/shortforge-ai.svg',
       homepage: 'https://vruntime-labs.github.io/shortforge-ai/',
       tags: ['video', 'shorts', 'youtube', 'creator', 'ffmpeg', 'whisper', 'ai'],
       versionStrategy: 'catalog',
