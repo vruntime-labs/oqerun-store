@@ -360,4 +360,23 @@ export const catalogData: Application[] = [
     permissions: [],
     metadata: { homepage: 'https://devdocs.io/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
   },
+
+  {
+    id: 'com.oqerun.dashy',
+    name: 'Dashy',
+    version: 'Rolling',
+    description: 'Customizable self-hosted dashboard with app links, status monitoring, widgets, themes, search and PWA support.',
+    category: 'Utilities',
+    icon: 'D',
+    featured: false,
+    publisher: { name: 'Alicia Sykes', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'lissy93/dashy' },
+    license: 'MIT',
+    type: 'pwa',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'pwa', url: 'https://demo.dashy.to/' },
+    permissions: ['network'],
+    metadata: { homepage: 'https://demo.dashy.to/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
+  },
 ];
