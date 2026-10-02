@@ -13,17 +13,10 @@ function field(label) {
 function extractRepoUrl(value) {
   try {
     const url = new URL(value.trim());
-    if (url.hostname.toLowerCase() !== "github.com" && url.hostname.toLowerCase() !== "www.github.com") {
-      return null;
-    }
-
+    if (!["github.com", "www.github.com"].includes(url.hostname.toLowerCase())) return null;
     const parts = url.pathname.split("/").filter(Boolean);
     if (parts.length < 2) return null;
-
-    return {
-      owner: parts[0],
-      repo: parts[1].replace(/\.git$/i, "")
-    };
+    return { owner: parts[0], repo: parts[1].replace(/\.git$/i, "") };
   } catch {
     return null;
   }
@@ -53,19 +46,19 @@ async function github(path) {
       ...(token ? { Authorization: "Bearer " + token } : {})
     }
   });
-
-  if (!response.ok) {
-    throw new Error("GitHub API " + response.status + " for " + path);
-  }
-
+  if (!response.ok) throw new Error("GitHub API " + response.status + " for " + path);
   return response.json();
+}
+
+function line(label, value) {
+  return "- **" + label + ":** " + value;
 }
 
 async function scan() {
   const repoValue = field("GitHub Repository URL");
   const liveValue = field("Live App URL");
   const appName = field("App Name") || "Unnamed app";
-  const type = field("Application Type") || "Not specified";
+  const submittedType = field("Application Type") || "Not specified";
   const repo = extractRepoUrl(repoValue);
 
   const lines = [
@@ -73,8 +66,8 @@ async function scan() {
     "",
     "<!-- oqerun-store-scan -->",
     "**App:** " + appName,
-    "**Submitted type:** " + type,
-    "**Repository:** " + repoValue,
+    "**Submitted type:** " + submittedType,
+    "**Repository:** " + (repoValue || "Not provided"),
     ""
   ];
 
@@ -83,12 +76,8 @@ async function scan() {
     return lines.join("\n");
   }
 
-  const checks = [];
-
   try {
     const meta = await github("/repos/" + encodeURIComponent(repo.owner) + "/" + encodeURIComponent(repo.repo));
-    checks.push(["Repository is public", !meta.private]);
-    checks.push(["Repository is not archived", !meta.archived]);
 
     const tree = await github(
       "/repos/" + encodeURIComponent(repo.owner) + "/" + encodeURIComponent(repo.repo) +
@@ -101,34 +90,21 @@ async function scan() {
 
     const hasOqpkg = paths.some(p => p.endsWith(".oqpkg"));
     const hasWasm = paths.some(p => p.endsWith(".wasm"));
-    const hasIndex = paths.includes("index.html") || paths.some(p => /(^|\/)index\.html$/.test(p));
+    const hasIndex = paths.some(p => /(^|\/)index\.html$/.test(p));
     const hasManifest = paths.some(p => /(^|\/)(manifest\.json|manifest\.webmanifest)$/.test(p));
     const hasServiceWorker = paths.some(p => /(^|\/)(sw|service-worker)(\.[^/]+)?\.js$/.test(p));
     const hasWebBuild = paths.some(p =>
       /(^|\/)(package\.json|vite\.config\.[cm]?[jt]s|webpack\.config\.[cm]?js|astro\.config\.[cm]?js|next\.config\.[cm]?js)$/.test(p)
     );
-    const nativeOnly = paths.some(p =>
-      /(^|\/)([^/]+\.(exe|msi|dmg|appimage|deb|rpm|apk|ipa))$/.test(p)
-    );
-
-    checks.push([".oqpkg package detected", hasOqpkg]);
-    checks.push(["Web entrypoint detected", hasIndex]);
-    checks.push(["PWA manifest detected", hasManifest]);
-    checks.push(["Service worker detected", hasServiceWorker]);
-    checks.push(["Web build metadata detected", hasWebBuild]);
-    checks.push(["WebAssembly detected", hasWasm]);
+    const hasReadme = paths.some(p => /(^|\/)(readme|readme\.md|readme\.txt)$/.test(p));
+    const hasLicense = paths.some(p => /(^|\/)(license|licence)(\.[^/]+)?$/.test(p));
+    const nativeOnly = paths.some(p => /(^|\/)([^/]+\.(exe|msi|dmg|appimage|deb|rpm|apk|ipa))$/.test(p));
 
     let inferred = "not-compatible";
-
-    if (hasOqpkg) {
-      inferred = "native";
-    } else if (hasWasm && (hasIndex || hasManifest || hasWebBuild)) {
-      inferred = "wasm";
-    } else if (hasIndex || hasManifest || hasServiceWorker || hasWebBuild) {
-      inferred = "web";
-    } else if (nativeOnly) {
-      inferred = "needs-review";
-    }
+    if (hasOqpkg) inferred = "native";
+    else if (hasWasm && (hasIndex || hasManifest || hasWebBuild)) inferred = "wasm";
+    else if (hasIndex || hasManifest || hasServiceWorker || hasWebBuild) inferred = "web";
+    else if (nativeOnly) inferred = "needs-review";
 
     let liveResult = null;
     const liveUrl = safeUrl(liveValue);
@@ -139,43 +115,86 @@ async function scan() {
           redirect: "manual",
           headers: { "User-Agent": "Oqerun-Store-Submission-Scanner" }
         });
-
-        liveResult = {
-          ok: response.status >= 200 && response.status < 400,
-          status: response.status
-        };
+        liveResult = { ok: response.status >= 200 && response.status < 400, status: response.status };
       } catch (error) {
-        liveResult = {
-          ok: false,
-          status: String(error.message || error)
-        };
+        liveResult = { ok: false, status: String(error.message || error) };
       }
     }
 
-    if (liveResult) {
-      checks.push(["Live HTTPS URL reachable", liveResult.ok]);
+    const required = [
+      ["Repository is public", !meta.private],
+      ["Repository is not archived", !meta.archived]
+    ];
+
+    if (inferred === "native") {
+      required.push([".oqpkg package detected", hasOqpkg]);
+    } else if (inferred === "web") {
+      required.push(["Web application files detected", hasIndex || hasManifest || hasWebBuild || hasServiceWorker]);
+      required.push(["Live HTTPS URL reachable", Boolean(liveResult?.ok)]);
+    } else if (inferred === "wasm") {
+      required.push(["WebAssembly module detected", hasWasm]);
+      required.push(["Web application shell detected", hasIndex || hasManifest || hasWebBuild]);
+      required.push(["Live HTTPS URL reachable", Boolean(liveResult?.ok)]);
+    } else {
+      required.push(["Supported Store format detected", false]);
     }
 
-    const positive = checks.filter(([, ok]) => ok).length;
-    const failed = checks.filter(([, ok]) => !ok).length;
+    const optional = [
+      ["PWA manifest", hasManifest],
+      ["Service worker", hasServiceWorker],
+      ["WebAssembly module", hasWasm],
+      [".oqpkg package", hasOqpkg],
+      ["README", hasReadme],
+      ["License file", hasLicense]
+    ];
+
+    const requiredFailures = required.filter(([, ok]) => !ok);
+    const detected = [
+      ["Web entrypoint", hasIndex],
+      ["PWA manifest", hasManifest],
+      ["Service worker", hasServiceWorker],
+      ["Web build metadata", hasWebBuild],
+      ["WebAssembly", hasWasm],
+      [".oqpkg", hasOqpkg],
+      ["README", hasReadme],
+      ["License", hasLicense]
+    ].filter(([, ok]) => ok);
+
+    let result;
+    if (tree.truncated) {
+      result = "Needs review";
+    } else if (inferred === "not-compatible") {
+      result = "Not compatible";
+    } else if (requiredFailures.length > 0) {
+      result = "Needs review";
+    } else {
+      result = "Ready for review";
+    }
 
     const recommendation =
-      inferred === "native" ? "Native Oqerun package detected. Continue with native package review." :
-      inferred === "web" ? "Web/PWA-compatible project detected. Continue with web compatibility review." :
-      inferred === "wasm" ? "WebAssembly project detected. Continue with WASM compatibility review." :
-      inferred === "needs-review" ? "Repository contains native-only or ambiguous artifacts. Manual review required." :
-      "No supported Oqerun Store format was detected. Manual review required.";
+      result === "Ready for review"
+        ? "The submission meets the automated compatibility requirements for its detected type. Continue with normal Store review."
+        : result === "Not compatible"
+          ? "No supported Oqerun Store format was detected. The maintainer should provide a supported package, web application, or WebAssembly project."
+          : "One or more required compatibility checks need attention. Manual review is required.";
 
     lines.push(
-      "### Detection",
+      "### Result",
       "",
+      "- **Status:** " + result,
       "- **Detected type:** " + inferred,
-      "- **Checks passed:** " + positive,
-      "- **Checks requiring attention:** " + failed,
       "",
-      "### Checks",
+      "### Required compatibility checks",
       "",
-      ...checks.map(([name, ok]) => "- " + (ok ? "✅" : "⚠️") + " " + name),
+      ...required.map(([name, ok]) => "- " + (ok ? "✅" : "❌") + " " + name),
+      "",
+      "### Optional capabilities",
+      "",
+      ...optional.map(([name, ok]) => "- " + (ok ? "✅" : "—") + " " + name),
+      "",
+      "### Detected repository features",
+      "",
+      ...(detected.length ? detected.map(([name]) => "- " + name) : ["- None detected"]),
       "",
       "### Recommendation",
       "",
@@ -187,30 +206,32 @@ async function scan() {
     if (liveResult) {
       lines.push(
         "",
-        "**Live URL:** " + liveValue + " — " +
-        (liveResult.ok ? "reachable (" + liveResult.status + ")" : "not confirmed (" + liveResult.status + ")")
+        "### Live application",
+        "",
+        line("URL", liveValue),
+        line("HTTP check", liveResult.ok ? "Reachable (" + liveResult.status + ")" : "Not confirmed (" + liveResult.status + ")")
       );
     }
 
     if (tree.truncated) {
       lines.push("", "⚠️ GitHub reported a truncated repository tree; manual review is required.");
     }
+
+    return lines.join("\n");
   } catch (error) {
     lines.push(
       "### Result",
       "",
       "⚠️ **Needs review** — scanner error: " + String(error.message || error)
     );
+    return lines.join("\n");
   }
-
-  return lines.join("\n");
 }
 
 scan().then(async report => {
   fs.writeFileSync("submission-scan-report.md", report + "\n", "utf8");
 
-  const issueMatch = body.match(/<!--\s*oqerun-store-submission\s*-->/);
-  if (!issueMatch) process.exit(0);
+  if (!body.match(/<!--\s*oqerun-store-submission\s*-->/)) process.exit(0);
 
   const eventPath = process.env.GITHUB_EVENT_PATH;
   if (!eventPath || !token) process.exit(0);
@@ -219,7 +240,6 @@ scan().then(async report => {
   const owner = event.repository?.owner?.login;
   const repo = event.repository?.name;
   const issueNumber = event.issue?.number;
-
   if (!owner || !repo || !issueNumber) process.exit(0);
 
   const response = await fetch(
@@ -236,9 +256,7 @@ scan().then(async report => {
     }
   );
 
-  if (!response.ok) {
-    throw new Error("Could not post scan report to issue: " + response.status);
-  }
+  if (!response.ok) throw new Error("Could not post scan report to issue: " + response.status);
 }).catch(error => {
   fs.writeFileSync(
     "submission-scan-report.md",
