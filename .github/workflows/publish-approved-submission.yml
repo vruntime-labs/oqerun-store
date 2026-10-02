@@ -1,0 +1,62 @@
+name: Publish Approved Oqerun Store Submission
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  approve:
+    if: >-
+      github.event.issue.pull_request == null &&
+      contains(github.event.issue.body, '<!-- oqerun-store-submission -->') &&
+      startsWith(github.event.comment.body, '/approve') &&
+      contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Oqerun Store
+        uses: actions/checkout@v4
+
+      - name: Mark submission approved
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "store:approved" --color "1f883d" --description "Approved for publication in Oqerun Store" --force
+          gh issue edit "${{ github.event.issue.number }}" --add-label "store:approved"
+          gh issue edit "${{ github.event.issue.number }}" --remove-label "store:submitted" || true
+          gh issue comment "${{ github.event.issue.number }}" --body "### Approval received
+
+The submission was approved by **@${{ github.event.comment.user.login }}**. Generating the Store catalog entry now."
+
+      - name: Generate catalog entry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: node scripts/publish-approved-submission.mjs
+
+      - name: Commit generated catalog entry
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/catalog.ts
+          if git diff --cached --quiet; then
+            echo "No catalog changes to commit."
+            exit 0
+          fi
+          git commit -m "feat: publish approved store submission"
+          git push
+
+      - name: Mark submission published
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "store:published" --color "8250df" --description "Published to the Oqerun Store catalog" --force
+          gh issue edit "${{ github.event.issue.number }}" --add-label "store:published"
+          gh issue edit "${{ github.event.issue.number }}" --remove-label "store:approved" || true
+          gh issue comment "${{ github.event.issue.number }}" --body "🚀 The generated catalog entry has been committed. GitHub Pages will build and deploy the updated Oqerun Store automatically."
