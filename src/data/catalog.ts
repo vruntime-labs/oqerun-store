@@ -322,4 +322,23 @@ export const catalogData: Application[] = [
       reviewStatus: 'official'
     },
   },
+
+  {
+    id: 'com.oqerun.hoppscotch',
+    name: 'Hoppscotch',
+    version: 'Rolling',
+    description: 'Open-source API development ecosystem for HTTP requests, WebSockets, GraphQL, MQTT and more in the browser.',
+    category: 'Development',
+    icon: 'H',
+    featured: true,
+    publisher: { name: 'Hoppscotch', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'hoppscotch/hoppscotch' },
+    license: 'MIT',
+    type: 'pwa',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'pwa', url: 'https://hoppscotch.io/' },
+    permissions: ['network'],
+    metadata: { homepage: 'https://hoppscotch.io/', offline: true, versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
+  },
 ];
