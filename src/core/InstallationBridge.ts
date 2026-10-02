@@ -6,6 +6,7 @@ export interface OqerunInstallationRequest {
   version: string;
   type: Application["type"];
   sourceUrl?: string;
+  iconUrl?: string;
   sha256?: string;
   permissions: string[];
   fileAssociations: string[];
@@ -54,6 +55,7 @@ export class InstallationBridge {
       version: app.version,
       type: app.type,
       sourceUrl: app.installation.url,
+      iconUrl: app.metadata?.iconUrl ?? app.icon,
       sha256: app.installation.sha256,
       permissions: [...app.permissions],
       fileAssociations: [...(app.fileAssociations ?? [])]
