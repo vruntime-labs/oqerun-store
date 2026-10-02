@@ -1,0 +1,31 @@
+name: Scan Oqerun Store App Submissions
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scan-submission:
+    if: contains(github.event.issue.body, '<!-- oqerun-store-submission -->')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Oqerun Store
+        uses: actions/checkout@v4
+
+      - name: Run submission scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: node scripts/scan-submission.mjs
+
+      - name: Upload scanner report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: submission-scan-${{ github.event.issue.number }}
+          path: submission-scan-report.md
+          if-no-files-found: ignore
