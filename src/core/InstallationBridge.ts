@@ -37,7 +37,7 @@ export class InstallationBridge {
   }
 
   async install(app: Application): Promise<void> {
-    if (!this.available || window.parent === window) {
+    if (window.parent === window) {
       throw new Error("Open this Store inside Oqerun OS to install apps directly into Oqerun.");
     }
 
