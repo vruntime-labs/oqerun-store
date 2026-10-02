@@ -379,4 +379,23 @@ export const catalogData: Application[] = [
     permissions: ['network'],
     metadata: { homepage: 'https://demo.dashy.to/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
   },
+
+  {
+    id: 'com.oqerun.pairdrop',
+    name: 'PairDrop',
+    version: 'Rolling',
+    description: 'Browser-based peer-to-peer file sharing for local networks and Internet transfers with device pairing and temporary rooms.',
+    category: 'Internet',
+    icon: 'P',
+    featured: true,
+    publisher: { name: 'PairDrop', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'schlagmichdoch/PairDrop' },
+    license: 'GPL-3.0',
+    type: 'web',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'web', url: 'https://pairdrop.net/' },
+    permissions: ['network', 'filesystem.read', 'filesystem.write'],
+    metadata: { homepage: 'https://pairdrop.net/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
+  },
 ];
