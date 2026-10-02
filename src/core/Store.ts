@@ -442,7 +442,7 @@ export class Store {
       ? '<button class="install-button large" data-modal-update>Update to ' + esc(app.version) + "</button>"
       : installed
         ? '<div class="detail-actions"><button class="install-button large" data-modal-open>Open</button><button class="install-button secondary large" data-modal-uninstall>Uninstall</button></div>'
-        : app.type === "oqpkg" && this.installationBridge.isAvailable()
+        : this.installationBridge.isAvailable()
           ? '<button class="install-button large" data-modal-install>Install in Oqerun OS</button>'
           : browserLaunch && app.installation.url
             ? '<button class="install-button large" data-modal-open>Open app ↗</button>'
@@ -508,6 +508,18 @@ export class Store {
         ? "Install " + app.name + "? This is a community application from " + app.publisher.name + ". Review its source, license and permissions before installing."
         : "Install " + app.name + "?";
       if (!window.confirm(warning)) return;
+    }
+
+    if (this.installationBridge.isAvailable()) {
+      try {
+        await this.installationBridge.install(app);
+        this.registry.register(app);
+        this.updateBadges();
+        this.renderApps();
+        return this.notice(app.name + " was installed in Oqerun OS.");
+      } catch (error) {
+        return this.notice(error instanceof Error ? error.message : "Oqerun OS could not install this application.");
+      }
     }
 
     if (app.type === "pwa" && app.installation.url) {
