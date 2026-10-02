@@ -93,7 +93,6 @@ The following projects are currently listed as community applications:
 - Repository: https://github.com/Achyuth072/kagelin
 - License: MIT
 
-
 ### Hoppscotch
 - Publisher: Hoppscotch
 - Repository: https://github.com/hoppscotch/hoppscotch
@@ -128,6 +127,13 @@ The following projects are currently listed as community applications:
 - Publisher: qier222
 - Repository: https://github.com/qier222/YesPlayMusic
 - License: MIT
+
+### Five30 Timer
+- Publisher: mmukeshbabu2010-dot
+- Repository: https://github.com/mmukeshbabu2010-dot/Five30-Timer
+- License: MIT
+- Store classification: Web app
+- Maintainer notification: GitHub issue #1
 
 ## Attribution and licensing policy
 
