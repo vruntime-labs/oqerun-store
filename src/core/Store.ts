@@ -102,7 +102,7 @@ export class Store {
       '</aside>' +
       '<section class="store-main">' +
       '<section class="hero hero-modern"><div class="hero-content" id="hero-content"></div><div class="hero-art"><div class="hero-art-glow"></div><div class="hero-app-stack"><span>W</span><span>×</span><span>P</span></div></div></section>' +
-      '<div class="store-mode-note"><strong>Browser mode</strong><span>Web and PWA apps can open here. Native Oqerun packages install through Oqerun OS when its installation bridge is available.</span><button class="store-mode-link" data-os>Open Oqerun OS ↗</button></div>' +
+      '<div class="store-mode-note" id="store-mode-note"></div>' +
       '<section class="content modern-content">' +
       '<div class="section-heading"><div><p class="eyebrow">DISCOVER</p><h2 id="title">All applications</h2></div><div id="stats" class="catalog-stats"></div></div>' +
       '<div id="featured-grid" class="featured-grid"></div>' +
@@ -126,6 +126,7 @@ export class Store {
 
     this.applyTheme();
     this.bind();
+    this.updateModeNote();
     this.root.querySelectorAll<HTMLButtonElement>("[data-category]").forEach(b => b.addEventListener("click", () => {
       this.category = b.dataset.category ?? "All";
       this.query = "";
@@ -150,6 +151,29 @@ export class Store {
     this.renderApps();
     this.updateBadges();
     if (this.settings.isAuto()) void this.applyAutomaticWebUpdates();
+  }
+
+  private updateModeNote(): void {
+    const note = this.root.querySelector<HTMLElement>("#store-mode-note");
+    if (!note) return;
+
+    const embeddedInOqerun = window.parent !== window;
+
+    if (embeddedInOqerun) {
+      note.innerHTML =
+        '<strong>Oqerun OS mode</strong>' +
+        '<span>Apps installed from Oqerun Store are added to Oqerun OS and appear in Start → All Apps. Web and PWA apps can also open in their Oqerun window.</span>';
+      return;
+    }
+
+    note.innerHTML =
+      '<strong>Browser mode</strong>' +
+      '<span>Web and PWA apps can open here. To install apps into Oqerun OS, open the Store from Oqerun OS.</span>' +
+      '<button class="store-mode-link" data-os>Open Oqerun OS ↗</button>';
+
+    note.querySelector("[data-os]")?.addEventListener("click", () => {
+      window.open("https://vruntime-labs.github.io/oqerun-os/", "_blank", "noopener,noreferrer");
+    });
   }
 
   private bind(): void {
