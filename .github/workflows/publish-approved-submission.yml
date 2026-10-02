@@ -8,31 +8,61 @@ permissions:
   contents: write
   issues: write
 
+concurrency:
+  group: oqerun-store-submission-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
 jobs:
-  approve:
+  publish:
     if: >-
       github.event.issue.pull_request == null &&
       contains(github.event.issue.body, '<!-- oqerun-store-submission -->') &&
-      startsWith(github.event.comment.body, '/approve') &&
-      contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+      (
+        github.event.comment.body == '/approve' ||
+        startsWith(github.event.comment.body, '/approve ')
+      ) &&
+      contains(fromJson('[\"OWNER\",\"MEMBER\",\"COLLABORATOR\"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Oqerun Store
         uses: actions/checkout@v4
 
-      - name: Mark submission approved
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check submission state
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh label create "store:approved" --color "1f883d" --description "Approved for publication in Oqerun Store" --force
-          gh issue edit "${{ github.event.issue.number }}" --add-label "store:approved"
+          set -euo pipefail
+          labels="$(gh issue view "${{ github.event.issue.number }}" --json labels --jq '[.labels[].name] | join(",")')"
+
+          if [[ "$labels" == *"store:published"* ]]; then
+            echo "Submission is already published."
+            exit 1
+          fi
+
+          if [[ "$labels" != *"store:submitted"* ]]; then
+            echo "Submission is not in store:submitted state."
+            exit 1
+          fi
+
+      - name: Mark submission under review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh label create "store:reviewing" --color "fbca04" --description "Submission is being validated for publication" --force
+          gh issue edit "${{ github.event.issue.number }}" --add-label "store:reviewing"
           gh issue edit "${{ github.event.issue.number }}" --remove-label "store:submitted" || true
-          gh issue comment "${{ github.event.issue.number }}" --body "### Approval received
+          gh issue comment "${{ github.event.issue.number }}" --body "### Review started
 
-The submission was approved by **@${{ github.event.comment.user.login }}**. Generating the Store catalog entry now."
+The submission passed the approval permission check and is now being validated automatically."
 
-      - name: Generate catalog entry
+      - name: Validate and generate catalog entry
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_BODY: ${{ github.event.issue.body }}
@@ -40,14 +70,27 @@ The submission was approved by **@${{ github.event.comment.user.login }}**. Gene
           REPOSITORY: ${{ github.repository }}
         run: node scripts/publish-approved-submission.mjs
 
-      - name: Commit generated catalog entry
+      - name: Verify generated catalog
         run: |
+          set -euo pipefail
+          node --check scripts/publish-approved-submission.mjs
+          test -s src/data/catalog.ts
+          test -s THIRD-PARTY-NOTICES.md
+
+      - name: Build Store
+        run: |
+          npm ci
+          npm run build
+
+      - name: Commit generated catalog and notices
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/catalog.ts
+          git add src/data/catalog.ts THIRD-PARTY-NOTICES.md
           if git diff --cached --quiet; then
-            echo "No catalog changes to commit."
-            exit 0
+            echo "No generated changes to commit."
+            exit 1
           fi
           git commit -m "feat: publish approved store submission"
           git push
@@ -56,7 +99,10 @@ The submission was approved by **@${{ github.event.comment.user.login }}**. Gene
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           gh label create "store:published" --color "8250df" --description "Published to the Oqerun Store catalog" --force
           gh issue edit "${{ github.event.issue.number }}" --add-label "store:published"
-          gh issue edit "${{ github.event.issue.number }}" --remove-label "store:approved" || true
-          gh issue comment "${{ github.event.issue.number }}" --body "🚀 The generated catalog entry has been committed. GitHub Pages will build and deploy the updated Oqerun Store automatically."
+          gh issue edit "${{ github.event.issue.number }}" --remove-label "store:reviewing" || true
+          gh issue comment "${{ github.event.issue.number }}" --body "🚀 The submission passed repository validation and Store build checks. The generated catalog entry and third-party notice were committed. GitHub Pages will deploy the updated Oqerun Store automatically.
+
+**Maintainer notification:** because GitHub Actions' `GITHUB_TOKEN` is scoped to this repository, the external project maintainer notification must be completed separately unless a dedicated cross-repository GitHub App/token is configured."
