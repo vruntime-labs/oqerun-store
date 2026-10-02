@@ -510,6 +510,11 @@ export class Store {
       if (!window.confirm(warning)) return;
     }
 
+    if (app.type === "pwa" && app.installation.url) {
+      window.open(app.installation.url, "_blank", "noopener,noreferrer");
+      return this.notice(app.name + " was opened in a new tab. Browser mode does not install PWAs into the standalone Store; installation is handled by Oqerun OS or your browser.");
+    }
+
     try {
       await this.installer.install(app);
       this.registry.register(app);
