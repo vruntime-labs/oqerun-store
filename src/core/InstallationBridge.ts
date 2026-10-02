@@ -68,7 +68,7 @@ export class InstallationBridge {
         type: "oqerun-installation-request",
         ...request
       },
-      OQERUN_OS_ORIGIN
+      "*"
     );
 
     const timeout = new Promise<{ ok: boolean; error?: string }>((resolve) => {
