@@ -26,9 +26,12 @@ export class InstallationBridge {
   constructor() {
     window.addEventListener("message", this.onMessage);
     if (window.parent !== window) {
+      // The Store is embedded by Oqerun OS. The parent origin can be
+      // GitHub Pages, Vercel, or another official Oqerun deployment, so
+      // the probe must target the actual parent rather than a hard-coded OS URL.
       window.parent.postMessage(
         { type: "oqerun-installation-probe", apiVersion: "1.0" },
-        OQERUN_OS_ORIGIN
+        "*"
       );
     }
   }
