@@ -37,25 +37,66 @@ export class PublishApp {
 
     dialog.innerHTML =
       '<div class="modal-backdrop"><section class="modal publish-modal">' +
-      '<button class="modal-close" data-publish-close>×</button>' +
-      '<div class="publish-header"><div><p class="eyebrow">PUBLISH YOUR APP</p><h2>Submit an application to Oqerun Store</h2><p>Start with a public GitHub repository. You can run a quick compatibility scan here, then send the complete submission through our official Google Form.</p></div><div class="publish-icon">↥</div></div>' +
+      '<button class="modal-close publish-close" data-publish-close aria-label="Close publish dialog">×</button>' +
+      '<div class="publish-header"><div class="publish-heading"><p class="eyebrow">PUBLISH YOUR APP</p><h2>Submit an application to Oqerun Store</h2><p>Run an optional compatibility scan, then complete the official submission form without leaving Oqerun Store.</p></div><div class="publish-icon" aria-hidden="true">▣</div></div>' +
+      '<div class="publish-tabs" role="tablist" aria-label="Submission steps">' +
+      '<button type="button" class="publish-tab active" data-publish-tab="scan">1. Compatibility scan</button>' +
+      '<button type="button" class="publish-tab" data-publish-tab="form">2. Official submission</button>' +
+      '</div>' +
+      '<div class="publish-panel" data-publish-panel="scan">' +
       '<form id="publish-form" class="publish-form">' +
       '<label>GitHub repository <input name="repository" required type="url" placeholder="https://github.com/owner/repository" autocomplete="url"></label>' +
       '<label>Live app URL <span class="publish-help">Optional. If you have a deployed HTTPS app, provide it so the Store can try a browser compatibility check.</span><input name="liveUrl" type="url" placeholder="https://example.github.io/my-app/" autocomplete="url"></label>' +
       '<p class="publish-help">We inspect public repository metadata, the Git tree, release assets and common web entry points. No repository code is executed by this browser scanner.</p>' +
       '<div class="publish-actions"><button type="button" class="install-button secondary" data-publish-close>Cancel</button><button type="submit" class="install-button large">Scan repository</button></div>' +
       '<p id="publish-status" class="publish-status" aria-live="polite"></p>' +
-      '</form><div id="publish-result"></div></section></div>';
+      '</form><div id="publish-result"></div>' +
+      '</div>' +
+      '<div class="publish-panel hidden" data-publish-panel="form">' +
+      '<div class="publish-form-intro"><span class="publish-form-badge">OFFICIAL OQERUN STORE FORM</span><h3>Application submission</h3><p>This is the official Google Form. It is embedded directly in the Store, so you can submit without opening another tab.</p></div>' +
+      '<div class="publish-iframe-wrap"><iframe id="publish-form-frame" title="Oqerun Store official application submission form" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>' +
+      '</div>' +
+      '</section></div>';
 
-    dialog.querySelectorAll("[data-publish-close]").forEach(element => element.addEventListener("click", () => {
-      dialog.innerHTML = "";
-    }));
+    dialog.querySelectorAll("[data-publish-close]").forEach(element =>
+      element.addEventListener("click", () => {
+        dialog.innerHTML = "";
+      })
+    );
+
+    dialog.querySelectorAll<HTMLButtonElement>("[data-publish-tab]").forEach(tab => {
+      tab.addEventListener("click", () => this.showPanel(tab.dataset.publishTab === "form" ? "form" : "scan"));
+    });
 
     const form = dialog.querySelector<HTMLFormElement>("#publish-form");
     form?.addEventListener("submit", event => {
       event.preventDefault();
       void this.scan(form);
     });
+
+    this.loadOfficialForm();
+  }
+
+  private showPanel(panel: "scan" | "form"): void {
+    this.dialog?.querySelectorAll<HTMLButtonElement>("[data-publish-tab]").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.publishTab === panel);
+    });
+    this.dialog?.querySelectorAll<HTMLElement>("[data-publish-panel]").forEach(section => {
+      section.classList.toggle("hidden", section.dataset.publishPanel !== panel);
+    });
+    if (panel === "form") this.loadOfficialForm();
+  }
+
+  private loadOfficialForm(report?: SubmissionReport): void {
+    const frame = this.dialog?.querySelector<HTMLIFrameElement>("#publish-form-frame");
+    if (!frame) return;
+
+    const url = new URL(PUBLISH_FORM_URL);
+    url.searchParams.set("embedded", "true");
+    if (report?.repositoryUrl) url.searchParams.set(FORM_ENTRY_REPOSITORY, report.repositoryUrl);
+    if (report?.liveUrl) url.searchParams.set(FORM_ENTRY_LIVE_URL, report.liveUrl);
+
+    frame.src = url.toString();
   }
 
   private async scan(form: HTMLFormElement): Promise<void> {
@@ -102,8 +143,6 @@ export class PublishApp {
       ? '<ul class="scan-notes">' + report.notes.map(note => "<li>" + esc(note) + "</li>").join("") + "</ul>"
       : "";
 
-    const formUrl = this.formUrl(report);
-
     return '<section class="publish-report">' +
       '<div class="publish-summary"><div><p class="eyebrow">SCAN RESULT</p><h3>' + esc(report.name) + '</h3></div><span class="scan-badge ' + report.recommendation + '">' + label + "</span></div>" +
       '<div class="scan-meta">' +
@@ -115,15 +154,20 @@ export class PublishApp {
       '<div class="scan-grid">' + checks + "</div>" +
       (report.notes.length ? '<div><p class="eyebrow">REVIEW NOTES</p>' + notes + "</div>" : "") +
       '<div class="publish-report-actions">' +
-      '<a class="install-button large" href="' + esc(formUrl) + '" target="_blank" rel="noopener noreferrer">Open submission form ↗</a>' +
+      '<button type="button" class="install-button large" data-open-official-form>Continue to official form →</button>' +
       '<button type="button" class="install-button secondary" data-copy-report>Copy scan report</button>' +
       (report.liveUrl ? '<a class="install-button secondary" href="' + esc(report.liveUrl) + '" target="_blank" rel="noopener noreferrer">Open live app ↗</a>' : "") +
       "</div>" +
-      '<p class="publish-disclaimer">The browser scan is an automated compatibility check, not an approval. After submission, the Store intake workflow creates a private review issue and GitHub Actions performs a second repository scan. A maintainer then reviews source, license, permissions, branding, security and runtime behavior before listing an application.</p>' +
+      '<p class="publish-disclaimer">The browser scan is an automated compatibility check, not an approval. After submission, the Store intake workflow creates a review issue and GitHub Actions performs a second repository scan before maintainer review.</p>' +
       "</section>";
   }
 
   private bindReport(): void {
+    this.dialog?.querySelector("[data-open-official-form]")?.addEventListener("click", () => {
+      this.loadOfficialForm(this.report);
+      this.showPanel("form");
+    });
+
     this.dialog?.querySelector("[data-copy-report]")?.addEventListener("click", async () => {
       if (!this.report) return;
       const text = this.reportText(this.report);
@@ -153,13 +197,5 @@ export class PublishApp {
       "",
       "Scanned at: " + report.scannedAt
     ].join("\n");
-  }
-
-  private formUrl(report: SubmissionReport): string {
-    const url = new URL(PUBLISH_FORM_URL);
-    url.searchParams.set("usp", "pp_url");
-    url.searchParams.set(FORM_ENTRY_REPOSITORY, report.repositoryUrl);
-    if (report.liveUrl) url.searchParams.set(FORM_ENTRY_LIVE_URL, report.liveUrl);
-    return url.toString();
   }
 }
