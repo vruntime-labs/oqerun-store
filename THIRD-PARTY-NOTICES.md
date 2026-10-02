@@ -93,6 +93,42 @@ The following projects are currently listed as community applications:
 - Repository: https://github.com/Achyuth072/kagelin
 - License: MIT
 
+
+### Hoppscotch
+- Publisher: Hoppscotch
+- Repository: https://github.com/hoppscotch/hoppscotch
+- License: MIT
+
+### DevDocs
+- Publisher: freeCodeCamp
+- Repository: https://github.com/freeCodeCamp/devdocs
+- License: MPL-2.0
+
+### Dashy
+- Publisher: Alicia Sykes
+- Repository: https://github.com/lissy93/dashy
+- License: MIT
+
+### PairDrop
+- Publisher: PairDrop
+- Repository: https://github.com/schlagmichdoch/PairDrop
+- License: GPL-3.0
+
+### Excalidraw
+- Publisher: Excalidraw
+- Repository: https://github.com/excalidraw/excalidraw
+- License: MIT
+
+### LocalSend Web
+- Publisher: LocalSend
+- Repository: https://github.com/localsend/web
+- License: Apache-2.0
+
+### YesPlayMusic
+- Publisher: qier222
+- Repository: https://github.com/qier222/YesPlayMusic
+- License: MIT
+
 ## Attribution and licensing policy
 
 1. Community listings are clearly labeled as **Community** in the Store.
