@@ -455,4 +455,30 @@ export const catalogData: Application[] = [
     permissions: ['network'],
     metadata: { homepage: 'https://music.qier222.com/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
   },
+  {
+    id: 'com.oqerun.five30-timer',
+    name: 'Five30 Timer',
+    version: '1.0.0',
+    description: 'Lightweight repeating 5-minute-30-second interval timer for study, writing, and structured work sessions, with notifications, audio alerts, pause/resume, reset, and round tracking.',
+    category: 'Utilities',
+    icon: '⏱',
+    featured: false,
+    publisher: { name: 'mmukeshbabu2010-dot', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'mmukeshbabu2010-dot/Five30-Timer' },
+    license: 'MIT',
+    type: 'web',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'web', url: 'https://mmukeshbabu2010-dot.github.io/Five30-Timer/' },
+    permissions: ['network'],
+    fileAssociations: [],
+    metadata: {
+      homepage: 'https://mmukeshbabu2010-dot.github.io/Five30-Timer/',
+      tags: ['utilities', 'timer', 'productivity', 'study', 'focus'],
+      versionStrategy: 'catalog',
+      reviewStatus: 'unverified',
+      discoverySource: 'Oqerun Store submission'
+    }
+  },
+
 ];
