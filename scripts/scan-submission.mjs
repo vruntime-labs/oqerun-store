@@ -5,7 +5,7 @@ const token = process.env.GITHUB_TOKEN || "";
 
 function field(label) {
   const escaped = label.replace(/[.*+?^()|[\]{}]/g, "\\$&");
-  const re = new RegExp("^### " + escaped + "\\s*$\\n([\\s\\S]*?)(?=^### |$)", "m");
+  const re = new RegExp("^#{2,3} " + escaped + "\\s*$\\n([\\s\\S]*?)(?=^#{2,3} |$)", "m");
   const match = body.match(re);
   return match ? match[1].trim() : "";
 }
