@@ -417,4 +417,23 @@ export const catalogData: Application[] = [
     permissions: ['filesystem.read', 'filesystem.write', 'network'],
     metadata: { homepage: 'https://excalidraw.com/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
   },
+
+  {
+    id: 'com.oqerun.localsend.web',
+    name: 'LocalSend Web',
+    version: 'Rolling',
+    description: 'Web client for peer-to-peer file sharing using WebRTC and WebSockets with LocalSend peers.',
+    category: 'Internet',
+    icon: 'L',
+    featured: false,
+    publisher: { name: 'LocalSend', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'localsend/web' },
+    license: 'Apache-2.0',
+    type: 'web',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'web', url: 'https://web.localsend.org/' },
+    permissions: ['network', 'filesystem.read', 'filesystem.write'],
+    metadata: { homepage: 'https://web.localsend.org/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
+  },
 ];
