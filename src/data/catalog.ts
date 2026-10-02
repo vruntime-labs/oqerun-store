@@ -319,6 +319,6 @@ export const catalogData: Application[] = [
       tags: ['video', 'shorts', 'youtube', 'creator', 'ffmpeg', 'whisper', 'ai'],
       versionStrategy: 'catalog',
       reviewStatus: 'official'
-    }
+    },
   },
 ];
