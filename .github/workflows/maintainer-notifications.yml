@@ -1,0 +1,27 @@
+name: Notify Community App Maintainers
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Notify maintainers
+        env:
+          MAINTAINER_GITHUB_TOKEN: ${{ secrets.MAINTAINER_GITHUB_TOKEN }}
+          MAX_NOTIFICATIONS_PER_RUN: "5"
+        run: node scripts/notify-maintainers.mjs
