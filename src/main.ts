@@ -2,6 +2,7 @@ import './ui/styles.css';
 import './ui/publish.css';
 import './ui/density.css';
 import './ui/identity.css';
+import './ui/polish.css';
 import { Store } from './core/Store';
 import { PublishApp } from './ui/PublishApp';
 
