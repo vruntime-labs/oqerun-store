@@ -33,7 +33,7 @@ export class InstallationBridge {
   }
 
   isAvailable(): boolean {
-    return window.parent !== window;
+    return this.available;
   }
 
   async install(app: Application): Promise<void> {
@@ -65,8 +65,8 @@ export class InstallationBridge {
 
     window.parent.postMessage(
       {
-        type: "oqerun-installation-request",
-        ...request
+        ...request,
+        type: "oqerun-installation-request"
       },
       "*"
     );
