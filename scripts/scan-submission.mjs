@@ -1,4 +1,4 @@
-const fs = require("node:fs");
+import fs from "node:fs";
 
 const body = process.env.ISSUE_BODY || "";
 const token = process.env.GITHUB_TOKEN || "";
