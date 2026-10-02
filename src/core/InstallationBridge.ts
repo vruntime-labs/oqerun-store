@@ -33,7 +33,7 @@ export class InstallationBridge {
   }
 
   isAvailable(): boolean {
-    return this.available;
+    return window.parent !== window;
   }
 
   async install(app: Application): Promise<void> {
