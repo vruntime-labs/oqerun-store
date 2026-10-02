@@ -436,4 +436,23 @@ export const catalogData: Application[] = [
     permissions: ['network', 'filesystem.read', 'filesystem.write'],
     metadata: { homepage: 'https://web.localsend.org/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
   },
+
+  {
+    id: 'com.oqerun.yesplaymusic',
+    name: 'YesPlayMusic',
+    version: 'Rolling',
+    description: 'Open-source third-party music player with a web/PWA version, lyrics, playlists, dark mode and shortcuts.',
+    category: 'Media',
+    icon: 'M',
+    featured: false,
+    publisher: { name: 'qier222', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'qier222/YesPlayMusic' },
+    license: 'MIT',
+    type: 'pwa',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'pwa', url: 'https://music.qier222.com/' },
+    permissions: ['network'],
+    metadata: { homepage: 'https://music.qier222.com/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
+  },
 ];
