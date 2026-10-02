@@ -398,4 +398,23 @@ export const catalogData: Application[] = [
     permissions: ['network', 'filesystem.read', 'filesystem.write'],
     metadata: { homepage: 'https://pairdrop.net/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
   },
+
+  {
+    id: 'com.oqerun.excalidraw',
+    name: 'Excalidraw',
+    version: 'Rolling',
+    description: 'Open-source virtual whiteboard for hand-drawn diagrams, wireframes and collaborative sketches with PWA support.',
+    category: 'Graphics',
+    icon: 'E',
+    featured: true,
+    publisher: { name: 'Excalidraw', verified: false },
+    listing: 'community',
+    source: { type: 'github', repository: 'excalidraw/excalidraw' },
+    license: 'MIT',
+    type: 'pwa',
+    compatibility: { minimumOqerunVersion: '0.1.0' },
+    installation: { method: 'pwa', url: 'https://excalidraw.com/' },
+    permissions: ['filesystem.read', 'filesystem.write', 'network'],
+    metadata: { homepage: 'https://excalidraw.com/', versionStrategy: 'rolling', reviewStatus: 'unverified', discoverySource: 'GitHub' }
+  },
 ];
