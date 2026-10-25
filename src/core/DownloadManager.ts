@@ -62,8 +62,87 @@ export class DownloadManager {
       throw new Error("No compatible downloadable release was published by this project.");
     }
 
-    window.open(target.url, "_blank", "noopener,noreferrer");
+    if (target.sha256) {
+      await this.downloadAndVerify(target);
+    } else {
+      // Do not claim verification when a publisher has not provided a digest.
+      window.open(target.url, "_blank", "noopener,noreferrer");
+    }
     return target;
+  }
+
+  private async downloadAndVerify(target: DownloadTarget): Promise<void> {
+    if (!/^[a-f0-9]{64}$/i.test(target.sha256 ?? "")) {
+      throw new Error("The published SHA-256 digest is invalid. Download blocked.");
+    }
+    if (!globalThis.crypto?.subtle) {
+      throw new Error("This browser cannot verify SHA-256 downloads. Use a supported secure browser.");
+    }
+
+    let response: Response;
+    try {
+      response = await fetch(target.url, {
+        method: "GET",
+        mode: "cors",
+        credentials: "omit",
+        referrerPolicy: "no-referrer",
+        headers: { Accept: "application/octet-stream" }
+      });
+    } catch {
+      throw new Error("The download host does not permit a secure verification request. No file was downloaded.");
+    }
+    if (!response.ok || !response.body) {
+      throw new Error("The file could not be fetched for verification. No file was downloaded.");
+    }
+
+    const maxBytes = 100 * 1024 * 1024;
+    const declaredLength = Number(response.headers.get("content-length") ?? 0);
+    if (declaredLength > maxBytes) {
+      await response.body.cancel();
+      throw new Error("Verified browser downloads are limited to 100 MB. No file was downloaded.");
+    }
+
+    const reader = response.body.getReader();
+    const chunks: Uint8Array[] = [];
+    let total = 0;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        total += value.byteLength;
+        if (total > maxBytes) {
+          await reader.cancel();
+          throw new Error("Verified browser downloads are limited to 100 MB. No file was downloaded.");
+        }
+        chunks.push(value);
+      }
+    } finally {
+      reader.releaseLock();
+    }
+
+    const bytes = new Uint8Array(total);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+
+    const digest = await globalThis.crypto.subtle.digest("SHA-256", bytes);
+    const actual = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+    if (actual.toLowerCase() !== target.sha256!.toLowerCase()) {
+      throw new Error("SHA-256 verification failed. The file may be altered or corrupted; download blocked.");
+    }
+
+    const blob = new Blob([bytes], { type: response.headers.get("content-type") || "application/octet-stream" });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = objectUrl;
+    anchor.download = target.fileName.replace(/[^a-z0-9._-]/gi, "_").slice(0, 180) || "verified-download";
+    anchor.rel = "noopener noreferrer";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 30_000);
   }
 
   private async resolveGitHub(repository: string, app: Application): Promise<DownloadTarget | null> {
