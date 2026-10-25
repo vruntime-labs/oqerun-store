@@ -36,6 +36,8 @@ export class Verification {
     if ((app.metadata?.reviewStatus ?? "unverified") === "unverified") warnings.push("This listing has not been independently reviewed by the Store.");
     if (app.installation.sha256) {
       if (!/^[a-f0-9]{64}$/i.test(app.installation.sha256)) errors.push("Published SHA-256 value is invalid.");
+    } else if (app.type === "oqpkg" || app.installation.downloadUrl) {
+      warnings.push("No SHA-256 digest is published. The download cannot be verified by the Store.");
     }
     if (app.permissions.length > 0) warnings.push("Review requested permissions before installation.");
 

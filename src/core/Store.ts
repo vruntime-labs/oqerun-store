@@ -99,6 +99,7 @@ export class Store {
       '<button class="side-item" data-wishlist><span>♡</span>Wishlist <b id="wishlist-count"></b></button>' +
       '<div class="sidebar-spacer"></div>' +
       '<button class="os-promo" data-os><div class="promo-mark">O</div><div><strong>Oqerun OS</strong><span>The Web, Reimagined as an Operating System.</span></div><b>›</b></button>' +
+      '<nav class="store-legal-links" aria-label="Legal"><a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a><a href="./terms.html" target="_blank" rel="noopener noreferrer">Terms</a></nav>' +
       '</aside>' +
       '<section class="store-main">' +
       '<section class="hero hero-modern"><div class="hero-content" id="hero-content"></div><div class="hero-art"><div class="hero-art-glow"></div><div class="hero-app-stack"><span>W</span><span>×</span><span>P</span></div></div></section>' +
