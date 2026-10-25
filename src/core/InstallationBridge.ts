@@ -31,7 +31,7 @@ export class InstallationBridge {
       // the probe must target the actual parent rather than a hard-coded OS URL.
       window.parent.postMessage(
         { type: "oqerun-installation-probe", apiVersion: "1.0" },
-        "*"
+        OQERUN_OS_ORIGIN
       );
     }
   }
@@ -73,7 +73,7 @@ export class InstallationBridge {
         ...request,
         type: "oqerun-installation-request"
       },
-      "*"
+      OQERUN_OS_ORIGIN
     );
 
     const timeout = new Promise<{ ok: boolean; error?: string }>((resolve) => {
@@ -92,7 +92,8 @@ export class InstallationBridge {
   }
 
   private onMessage = (event: MessageEvent): void => {
-    if (event.origin !== OQERUN_OS_ORIGIN) return;
+    if (event.origin !== OQERUN_OS_ORIGIN || event.source !== window.parent) return;
+    if (!event.data || typeof event.data !== "object") return;
 
     const data = event.data as {
       type?: string;
@@ -102,14 +103,15 @@ export class InstallationBridge {
       error?: string;
     };
 
-    if (data?.type === "oqerun-installation-ready") {
+    if (data?.type === "oqerun-installation-ready" && data.apiVersion === "1.0") {
       this.available = true;
       return;
     }
 
     if (
       data?.type !== "oqerun-installation-response" ||
-      !data.requestId
+      typeof data.requestId !== "string" ||
+      !["ok", "error"].includes(data.result ?? "")
     ) {
       return;
     }
@@ -119,7 +121,7 @@ export class InstallationBridge {
 
     resolve({
       ok: data.result === "ok",
-      error: data.error
+      error: typeof data.error === "string" ? data.error.slice(0, 300) : undefined
     });
   };
 }
