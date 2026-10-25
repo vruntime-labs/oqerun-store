@@ -1,4 +1,5 @@
 import type { Application } from "../models/App";
+import { permissionDefinitions } from "../models/Permission";
 
 export interface OqerunInstallationRequest {
   appId: string;
@@ -45,6 +46,15 @@ export class InstallationBridge {
       throw new Error("Open this Store inside Oqerun OS to install apps directly into Oqerun.");
     }
 
+    const knownPermissions = new Set(permissionDefinitions.map(permission => permission.id));
+    const unknownPermissions = app.permissions.filter(permission => !knownPermissions.has(permission));
+    if (unknownPermissions.length) {
+      throw new Error("Installation blocked: this app requests unknown permissions (" + unknownPermissions.slice(0, 5).join(", ") + ").");
+    }
+    if (app.type === "oqpkg" && !/^[a-f0-9]{64}$/i.test(app.installation.sha256 ?? "")) {
+      throw new Error("Native package installation requires a published SHA-256 digest. No package was installed.");
+    }
+
     const requestId =
       "oq-install-" +
       Date.now().toString(36) +
@@ -76,14 +86,16 @@ export class InstallationBridge {
       OQERUN_OS_ORIGIN
     );
 
+    let timeoutId = 0;
     const timeout = new Promise<{ ok: boolean; error?: string }>((resolve) => {
-      window.setTimeout(
+      timeoutId = window.setTimeout(
         () => resolve({ ok: false, error: "Oqerun OS did not respond to the installation request." }),
         30000
       );
     });
 
     const response = await Promise.race([result, timeout]);
+    window.clearTimeout(timeoutId);
     this.pending.delete(requestId);
 
     if (!response.ok) {

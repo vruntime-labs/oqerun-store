@@ -547,7 +547,13 @@ export class Store {
         this.registry.register(app);
         this.updateBadges();
         this.renderApps();
-        return this.notice(app.name + " was installed in Oqerun OS.");
+        if (app.type === "web" || app.type === "external" || app.type === "pwa") {
+          return this.notice(app.name + " was added to the Oqerun OS app library. It runs from its website; this action does not install website files locally.");
+        }
+        if (app.type === "oqpkg") {
+          return this.notice(app.name + " was registered by Oqerun OS. Package byte verification and extraction must be completed by the OS installer before this can be treated as a native package installation.");
+        }
+        return this.notice(app.name + " was registered in Oqerun OS.");
       } catch (error) {
         return this.notice(error instanceof Error ? error.message : "Oqerun OS could not install this application.");
       }
@@ -563,7 +569,11 @@ export class Store {
       this.registry.register(app);
       this.updateBadges();
       this.renderApps();
-      this.notice(app.name + " is now registered as installed.");
+      if (app.type === "web" || app.type === "external" || app.type === "pwa") {
+        this.notice(app.name + " was added to the Store library. It opens from its website; no website files were installed locally.");
+      } else {
+        this.notice(app.name + " was registered in the Store library. This does not confirm that a native package was downloaded or installed.");
+      }
     } catch (error) {
       this.notice(error instanceof Error ? error.message : "Installation could not be started.");
     }

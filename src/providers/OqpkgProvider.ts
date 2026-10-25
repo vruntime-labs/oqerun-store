@@ -13,6 +13,12 @@ export class OqpkgProvider implements InstallationProvider {
     if (!this.bridge.isAvailable()) {
       throw new Error('Native .oqpkg installation is only available inside Oqerun OS.');
     }
-    await this.bridge.install(a);
+
+    // The OS currently rejects native packages until it can verify and safely
+    // extract the actual package bytes. Fail clearly instead of implying that
+    // a valid manifest or digest has completed an installation.
+    throw new Error(
+      'Native .oqpkg installation is temporarily unavailable. Oqerun OS must first verify and safely install the package bytes. Nothing was installed.',
+    );
   }
 }
