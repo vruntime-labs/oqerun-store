@@ -73,17 +73,20 @@ describe("DownloadManager package integrity checks", () => {
       .rejects.toThrow(/SHA-256 verification failed/i);
   });
 
-  it("rejects a download that exceeds the browser verification limit", async () => {
+  it("rejects a download above the browser verification limit using its declared length", async () => {
     const body = new ReadableStream<Uint8Array>({
       start(controller) {
-        controller.enqueue(new Uint8Array(100 * 1024 * 1024 + 1));
         controller.close();
       },
     });
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
       ok: true,
       body,
-      headers: { get: (name: string) => name.toLowerCase() === "content-length" ? "0" : null },
+      headers: {
+        get: (name: string) => name.toLowerCase() === "content-length"
+          ? String(100 * 1024 * 1024 + 1)
+          : null,
+      },
     } as unknown as Response));
     vi.stubGlobal("crypto", { subtle: { digest: vi.fn() } });
 
