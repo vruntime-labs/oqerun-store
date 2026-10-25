@@ -140,3 +140,5 @@ body{background:#030b19}
   .wishlist-row .row-actions{grid-column:1/-1;justify-content:flex-start}
   .wishlist-row .row-actions .install-button{flex:0 0 auto}
 }
+
+.store-legal-links{display:flex;gap:14px;flex-wrap:wrap;padding:12px 10px 4px;font-size:12px}.store-legal-links a{color:var(--muted,#aab6c8);text-decoration:underline;text-underline-offset:3px}.store-legal-links a:hover{color:var(--text,#e8edf5)}
