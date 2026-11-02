@@ -108,7 +108,9 @@ for (const repo of repositories.values()) {
   if (!/^https?:\/\//i.test(repo.homepage)) continue;
 
   const safeId = "community.github." + repo.full_name.toLowerCase().replace(/[^a-z0-9]+/g, ".");
-  const appType = type(repo);\n  const assets = await discoverAssets(repo.homepage);\n  apps.push({
+  const appType = type(repo);
+  const assets = await discoverAssets(repo.homepage);
+  apps.push({
     id: safeId,
     name: repo.name.replace(/[-_]+/g, " "),
     version: "0.0.0",

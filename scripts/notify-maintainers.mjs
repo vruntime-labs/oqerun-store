@@ -72,13 +72,13 @@ function issueBody(app) {
   ].join("\n");
 }
 
-const candidates = candidates
+const selectedCandidates = candidates
   .filter(app => app?.listing === "community" && app?.metadata?.discoverySource === "github-topic-discovery")
   .sort((a, b) => String(b.metadata?.lastUpdated || "").localeCompare(String(a.metadata?.lastUpdated || "")));
 
 let created = 0;
 let skipped = 0;
-for (const app of candidates) {
+for (const app of selectedCandidates) {
   if (created >= maxNotifications) break;
   const repository = parseRepository(app.source?.repository);
   if (!repository) {
