@@ -79,7 +79,7 @@ The submission passed the approval permission check and is now being validated a
 
       - name: Build Store
         run: |
-          npm ci
+          npm install --no-audit --no-fund
           npm run build
 
       - name: Commit generated catalog and notices

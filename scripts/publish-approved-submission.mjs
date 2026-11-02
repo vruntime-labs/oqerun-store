@@ -41,7 +41,7 @@ function category(value) {
   return value === "Other" ? "Utilities" : value;
 }
 
-function submittedType(value) {
+function parseApplicationType(value) {
   const normalized = value.toLowerCase();
   if (normalized.includes(".oqpkg")) return "native";
   if (normalized.includes("pwa")) return "pwa";
@@ -117,7 +117,7 @@ async function main() {
   const submittedLicense = field("License");
   const repoUrl = field("GitHub Repository URL");
   const liveUrl = field("Live App URL");
-  const submittedType = submittedType(field("Application Type"));
+  const requestedType = parseApplicationType(field("Application Type"));
   const authorization = field("Authorization");
   const source = repoFromUrl(repoUrl);
 
@@ -128,13 +128,13 @@ async function main() {
   if (authorization.toLowerCase() !== "i agree" && !authorization.toLowerCase().includes("confirm")) {
     throw new Error("Authorization confirmation is required.");
   }
-  if (submittedType === "other") throw new Error("Application Type must be .oqpkg, PWA, Web App, or WebAssembly.");
+  if (requestedType === "other") throw new Error("Application Type must be .oqpkg, PWA, Web App, or WebAssembly.");
 
   if (liveUrl) {
     const parsed = new URL(liveUrl);
     if (parsed.protocol !== "https:") throw new Error("Live App URL must use HTTPS.");
   }
-  if ((submittedType === "web" || submittedType === "pwa") && !liveUrl) {
+  if ((requestedType === "web" || requestedType === "pwa") && !liveUrl) {
     throw new Error("Live App URL is required for Web App and PWA submissions.");
   }
 
@@ -165,7 +165,7 @@ async function main() {
   }
 
   const files = await repositoryFiles(source.owner, source.repo);
-  const kind = detectCompatibility(files, submittedType);
+  const kind = detectCompatibility(files, requestedType);
   const installUrl = liveUrl || meta.homepage || ("https://github.com/" + source.owner + "/" + source.repo);
   const publisherName = publisher || source.owner;
 
