@@ -80,8 +80,8 @@ export class InstallationBridge {
 
     window.parent.postMessage(
       {
-        ...request,
-        type: "oqerun-installation-request"
+        type: "oqerun-installation-request",
+        request
       },
       OQERUN_OS_ORIGIN
     );
@@ -117,9 +117,6 @@ export class InstallationBridge {
 
     if (data?.type === "oqerun-installation-ready" && data.apiVersion === "1.0") {
       this.available = true;
-      // Notify the Store UI so buttons rendered before the asynchronous handshake
-      // switch from browser-only Open actions to OS installation actions.
-      window.dispatchEvent(new Event("oqerun-installation-bridge-ready"));
       return;
     }
 
