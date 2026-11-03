@@ -58,6 +58,10 @@ export class UpdateSettingsManager {
   }
 
   private save(): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.settings));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.settings));
+    } catch {
+      // Sandboxed Oqerun embeds have an opaque origin; retain settings in memory.
+    }
   }
 }
