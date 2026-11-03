@@ -67,6 +67,11 @@ export class AppRegistry {
   }
 
   private save(): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.installed));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.installed));
+    } catch {
+      // Sandboxed Oqerun embeds have an opaque origin and no persistent localStorage.
+      // Keep the registry usable in memory for the current Store session.
+    }
   }
 }
