@@ -62,6 +62,8 @@ export class Store {
   private offlineOnly = false;
 
   constructor(private readonly root: HTMLElement) {
+    window.addEventListener("oqerun-installation-bridge-ready", () => this.renderApps());
+
     try {
       const saved = JSON.parse(localStorage.getItem(this.wishlistKey) ?? "[]");
       if (Array.isArray(saved)) {
