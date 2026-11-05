@@ -38,7 +38,7 @@ export const remoteCatalog: Application[] = [
         "https://docs.amplify.aws/assets/classic-og.png"
       ],
       "homepage": "https://docs.amplify.aws/lib/q/platform/js",
-      "lastUpdated": "2026-11-03",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -150,7 +150,7 @@ export const remoteCatalog: Application[] = [
         "https://angular.dev/assets/images/ng-image.jpg"
       ],
       "homepage": "https://angular.dev",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -200,7 +200,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://www.assemblyscript.org/favicons/android-chrome-512x512.png",
       "screenshots": [],
       "homepage": "https://www.assemblyscript.org",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -247,7 +247,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://builder.io",
-      "lastUpdated": "2026-11-03",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -353,7 +353,7 @@ export const remoteCatalog: Application[] = [
         "https://capacitorjs.com/og.png"
       ],
       "homepage": "https://capacitorjs.com",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -410,7 +410,7 @@ export const remoteCatalog: Application[] = [
         "https://kotlinlang.org/assets/images/open-graph/compose-multiplatform.png"
       ],
       "homepage": "https://jetbrains.com/lp/compose-multiplatform",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -467,7 +467,7 @@ export const remoteCatalog: Application[] = [
         "https://daily.dev/og-image.png?v=a830cdf1"
       ],
       "homepage": "https://daily.dev",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -524,7 +524,7 @@ export const remoteCatalog: Application[] = [
         "https://dashy.to/img/dashy.png"
       ],
       "homepage": "https://dashy.to",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -581,7 +581,7 @@ export const remoteCatalog: Application[] = [
         "https://devdocs.io/images/icon-320.png"
       ],
       "homepage": "https://devdocs.io",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": true,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -683,7 +683,7 @@ export const remoteCatalog: Application[] = [
         "https://folia-site.cielaniska.top/hero.png"
       ],
       "homepage": "https://folia-site.cielaniska.top/",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -692,7 +692,6 @@ export const remoteCatalog: Application[] = [
         "music",
         "music-player",
         "navidrome-client",
-        "netease-music",
         "player",
         "pwa",
         "react",
@@ -736,7 +735,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://fy.to/pwa-512x512.png",
       "screenshots": [],
       "homepage": "https://fy.to",
-      "lastUpdated": "2026-09-21",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -791,7 +790,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://github.githubassets.com/images/icons/emoji/unicode/1f300.png",
       "screenshots": [],
       "homepage": "https://svenstaro.github.io/genact/",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -841,7 +840,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://registry.npmmirror.com/@gkd-kit/docs/0.0.1793377480416/files/.vitepress/dist/icon.svg",
       "screenshots": [],
       "homepage": "https://gkd.li",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -895,7 +894,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://raw.githubusercontent.com/maxence-charriere/go-app-docs/main/docs/web/icon.png",
       "screenshots": [],
       "homepage": "https://go-app.dev",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -947,7 +946,7 @@ export const remoteCatalog: Application[] = [
         "https://writewithharper.com/social_image.png"
       ],
       "homepage": "https://writewithharper.com",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1001,7 +1000,7 @@ export const remoteCatalog: Application[] = [
         "https://hoppscotch.io/banner.png"
       ],
       "homepage": "https://hoppscotch.io",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1058,7 +1057,7 @@ export const remoteCatalog: Application[] = [
         "https://frappe.io/files/Frappe%20HR.png"
       ],
       "homepage": "https://frappe.io/hr",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1165,7 +1164,7 @@ export const remoteCatalog: Application[] = [
         "https://ionicframework.com/img/framework-og-img.png"
       ],
       "homepage": "https://ionicframework.com",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1222,7 +1221,7 @@ export const remoteCatalog: Application[] = [
         "https://4gray.github.io/iptvnator/og-image.png"
       ],
       "homepage": "https://4gray.github.io/iptvnator/",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1333,7 +1332,7 @@ export const remoteCatalog: Application[] = [
         "https://kaetram.com/src/assets/screenshot-1.png"
       ],
       "homepage": "https://kaetram.com",
-      "lastUpdated": "2026-11-03",
+      "lastUpdated": "2026-11-04",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1500,7 +1499,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://leptos.dev",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1553,7 +1552,7 @@ export const remoteCatalog: Application[] = [
         "https://turso.tech/opengraph-image.png?8abb64b5fd9d7c60"
       ],
       "homepage": "https://turso.tech/libsql",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1601,7 +1600,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://developer.chrome.com/docs/lighthouse/overview/icons/icon-512x512.png",
       "screenshots": [],
       "homepage": "https://developer.chrome.com/docs/lighthouse/overview/",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1654,7 +1653,7 @@ export const remoteCatalog: Application[] = [
         "https://meshery.io/assets/images/logos/meshery-gradient.png"
       ],
       "homepage": "https://meshery.io",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1760,7 +1759,7 @@ export const remoteCatalog: Application[] = [
         "https://opengym.ch/img/social.jpg"
       ],
       "homepage": "https://opengym.ch",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1870,7 +1869,7 @@ export const remoteCatalog: Application[] = [
         "https://pairdrop.net/images/pairdrop_screenshot_mobile_6.png"
       ],
       "homepage": "https://pairdrop.net",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1921,7 +1920,7 @@ export const remoteCatalog: Application[] = [
         "https://perspective-dev.github.io/projects/light/collage.png"
       ],
       "homepage": "https://perspective-dev.github.io/",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2070,7 +2069,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://quasar.dev",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2127,7 +2126,7 @@ export const remoteCatalog: Application[] = [
         "https://www.raylib.com/common/img/raylib_logo_card.png"
       ],
       "homepage": "http://www.raylib.com",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2180,9 +2179,7 @@ export const remoteCatalog: Application[] = [
     "fileAssociations": [],
     "metadata": {
       "iconUrl": "https://img.itch.zone/aW1hZ2UvMTU4NTg4Lzc4NTU5Ny5wbmc=/32x32%23/0yhJrw.png",
-      "screenshots": [
-        "https://img.itch.zone/aW1hZ2UvMTU4NTg4Lzc4NTU5Ny5wbmc=/original/tAjW0L.png"
-      ],
+      "screenshots": [],
       "homepage": "https://bayat.itch.io/red-runner",
       "lastUpdated": "2026-11-02",
       "offline": false,
@@ -2241,7 +2238,7 @@ export const remoteCatalog: Application[] = [
         "https://cdn.dwdeveloper.com/assets/web/reldens-check.png"
       ],
       "homepage": "https://demo.reldens.com/",
-      "lastUpdated": "2026-11-03",
+      "lastUpdated": "2026-11-04",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2348,7 +2345,7 @@ export const remoteCatalog: Application[] = [
         "https://snapdrop.net/images/twitter-stream.jpg"
       ],
       "homepage": "https://snapdrop.net",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2445,7 +2442,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "http://tesseract.projectnaptha.com/",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2548,7 +2545,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://demo.liketrek.com/icons/icon-512x512.png",
       "screenshots": [],
       "homepage": "https://demo.liketrek.com",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": true,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2605,7 +2602,7 @@ export const remoteCatalog: Application[] = [
         "https://wasmedge.org/img/wasmedge-runtime-horizontal-color.png"
       ],
       "homepage": "https://WasmEdge.org",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2660,7 +2657,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://wasmer.io/favicon.ico",
       "screenshots": [],
       "homepage": "https://wasmer.io",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2712,7 +2709,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://wasmtime.dev/",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2767,7 +2764,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://pion.ly/favicon.svg",
       "screenshots": [],
       "homepage": "https://pion.ly",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2824,7 +2821,7 @@ export const remoteCatalog: Application[] = [
         "https://webvm.io/assets/social_2024.png"
       ],
       "homepage": "https://webvm.io",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2877,7 +2874,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://music.qier222.com",
-      "lastUpdated": "2026-11-04",
+      "lastUpdated": "2026-11-05",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
