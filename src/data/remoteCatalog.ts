@@ -38,7 +38,7 @@ export const remoteCatalog: Application[] = [
         "https://docs.amplify.aws/assets/classic-og.png"
       ],
       "homepage": "https://docs.amplify.aws/lib/q/platform/js",
-      "lastUpdated": "2026-11-20",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -93,7 +93,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://ancientbeast.com/favicon.png",
       "screenshots": [],
       "homepage": "https://AncientBeast.com",
-      "lastUpdated": "2026-11-21",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -150,7 +150,7 @@ export const remoteCatalog: Application[] = [
         "https://angular.dev/assets/images/ng-image.jpg"
       ],
       "homepage": "https://angular.dev",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -200,7 +200,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://www.assemblyscript.org/favicons/android-chrome-512x512.png",
       "screenshots": [],
       "homepage": "https://www.assemblyscript.org",
-      "lastUpdated": "2026-11-20",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -353,7 +353,7 @@ export const remoteCatalog: Application[] = [
         "https://capacitorjs.com/og.png"
       ],
       "homepage": "https://capacitorjs.com",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -410,7 +410,7 @@ export const remoteCatalog: Application[] = [
         "https://kotlinlang.org/assets/images/open-graph/compose-multiplatform.png"
       ],
       "homepage": "https://jetbrains.com/lp/compose-multiplatform",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -467,7 +467,7 @@ export const remoteCatalog: Application[] = [
         "https://daily.dev/og-image.png?v=a830cdf1"
       ],
       "homepage": "https://daily.dev",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -524,7 +524,7 @@ export const remoteCatalog: Application[] = [
         "https://dashy.to/img/dashy.png"
       ],
       "homepage": "https://dashy.to",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -581,7 +581,7 @@ export const remoteCatalog: Application[] = [
         "https://devdocs.io/images/icon-320.png"
       ],
       "homepage": "https://devdocs.io",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": true,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -683,7 +683,7 @@ export const remoteCatalog: Application[] = [
         "https://folia-site.cielaniska.top/hero.png"
       ],
       "homepage": "https://folia-site.cielaniska.top/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -792,7 +792,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://github.githubassets.com/images/icons/emoji/unicode/1f300.png",
       "screenshots": [],
       "homepage": "https://svenstaro.github.io/genact/",
-      "lastUpdated": "2026-11-21",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -842,7 +842,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://registry.npmmirror.com/@gkd-kit/docs/0.0.1794925436093/files/.vitepress/dist/icon.svg",
       "screenshots": [],
       "homepage": "https://gkd.li",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -896,7 +896,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://raw.githubusercontent.com/maxence-charriere/go-app-docs/main/docs/web/icon.png",
       "screenshots": [],
       "homepage": "https://go-app.dev",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -946,7 +946,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://op7418.github.io/guizang-game-skill/assets/ui/favicon.png",
       "screenshots": [],
       "homepage": "https://op7418.github.io/guizang-game-skill/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1003,7 +1003,7 @@ export const remoteCatalog: Application[] = [
         "https://writewithharper.com/social_image.png"
       ],
       "homepage": "https://writewithharper.com",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1057,7 +1057,7 @@ export const remoteCatalog: Application[] = [
         "https://hoppscotch.io/banner.png"
       ],
       "homepage": "https://hoppscotch.io",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1114,7 +1114,7 @@ export const remoteCatalog: Application[] = [
         "https://frappe.io/files/Frappe%20HR.png"
       ],
       "homepage": "https://frappe.io/hr",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1221,7 +1221,7 @@ export const remoteCatalog: Application[] = [
         "https://ionicframework.com/img/framework-og-img.png"
       ],
       "homepage": "https://ionicframework.com",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1278,7 +1278,7 @@ export const remoteCatalog: Application[] = [
         "https://4gray.github.io/iptvnator/og-image.png"
       ],
       "homepage": "https://4gray.github.io/iptvnator/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1335,7 +1335,7 @@ export const remoteCatalog: Application[] = [
         "https://chirpy-img.netlify.app/commons/devices-mockup.png"
       ],
       "homepage": "https://chirpy.cotes.page",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1349,6 +1349,57 @@ export const remoteCatalog: Application[] = [
         "pwa",
         "responsive-web-design",
         "rubygems"
+      ],
+      "discoverySource": "github-topic-discovery"
+    }
+  },
+  {
+    "id": "community.github.angus.c.just",
+    "name": "just",
+    "version": "0.0.0",
+    "description": "A library of dependency-free JavaScript utilities that do just one thing.",
+    "category": "Utilities",
+    "icon": "◉",
+    "featured": false,
+    "publisher": {
+      "name": "angus-c",
+      "verified": false
+    },
+    "listing": "community",
+    "source": {
+      "type": "github",
+      "repository": "angus-c/just"
+    },
+    "license": "MIT",
+    "type": "pwa",
+    "compatibility": {
+      "minimumOqerunVersion": "0.1.0"
+    },
+    "installation": {
+      "method": "pwa",
+      "url": "https://anguscroll.com/just"
+    },
+    "permissions": [
+      "network"
+    ],
+    "fileAssociations": [],
+    "metadata": {
+      "iconUrl": "https://anguscroll.com/favicon.ico",
+      "screenshots": [],
+      "homepage": "https://anguscroll.com/just",
+      "lastUpdated": "2026-11-24",
+      "offline": false,
+      "versionStrategy": "rolling",
+      "reviewStatus": "unverified",
+      "tags": [
+        "dependency-free",
+        "javascript",
+        "library",
+        "pwa",
+        "tiny",
+        "typescript",
+        "utilities",
+        "utils"
       ],
       "discoverySource": "github-topic-discovery"
     }
@@ -1556,7 +1607,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://leptos.dev",
-      "lastUpdated": "2026-11-22",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1609,7 +1660,7 @@ export const remoteCatalog: Application[] = [
         "https://turso.tech/opengraph-image.png?8abb64b5fd9d7c60"
       ],
       "homepage": "https://turso.tech/libsql",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1657,7 +1708,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://developer.chrome.com/docs/lighthouse/overview/icons/icon-512x512.png",
       "screenshots": [],
       "homepage": "https://developer.chrome.com/docs/lighthouse/overview/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1710,7 +1761,7 @@ export const remoteCatalog: Application[] = [
         "https://meshery.io/assets/images/logos/meshery-gradient.png"
       ],
       "homepage": "https://meshery.io",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1764,7 +1815,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://mykonos-island-voxels.netlify.app",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1816,7 +1867,7 @@ export const remoteCatalog: Application[] = [
         "https://opengym.ch/img/social-v2.jpg"
       ],
       "homepage": "https://opengym.ch",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1870,7 +1921,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://passer-by.com/pacman/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1926,7 +1977,7 @@ export const remoteCatalog: Application[] = [
         "https://pairdrop.net/images/pairdrop_screenshot_mobile_6.png"
       ],
       "homepage": "https://pairdrop.net",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1977,7 +2028,7 @@ export const remoteCatalog: Application[] = [
         "https://perspective-dev.github.io/projects/light/collage.png"
       ],
       "homepage": "https://perspective-dev.github.io/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2079,7 +2130,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://pyodide.org/en/stable/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2126,7 +2177,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://quasar.dev",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2183,7 +2234,7 @@ export const remoteCatalog: Application[] = [
         "https://www.raylib.com/common/img/raylib_logo_card.png"
       ],
       "homepage": "http://www.raylib.com",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2316,56 +2367,6 @@ export const remoteCatalog: Application[] = [
     }
   },
   {
-    "id": "community.github.royalur.royalur.net",
-    "name": "RoyalUr.net",
-    "version": "0.0.0",
-    "description": "Play The Royal Game of Ur online! https://royalur.net",
-    "category": "Games",
-    "icon": "🎮",
-    "featured": false,
-    "publisher": {
-      "name": "RoyalUr",
-      "verified": false
-    },
-    "listing": "community",
-    "source": {
-      "type": "github",
-      "repository": "RoyalUr/RoyalUr.net"
-    },
-    "license": "MIT",
-    "type": "web",
-    "compatibility": {
-      "minimumOqerunVersion": "0.1.0"
-    },
-    "installation": {
-      "method": "web",
-      "url": "https://royalur.net"
-    },
-    "permissions": [
-      "network"
-    ],
-    "fileAssociations": [],
-    "metadata": {
-      "iconUrl": "https://royalur.net/apple-icon.png",
-      "screenshots": [
-        "https://royalur.net/opengraph-image.jpg?82048a82884d4e2f"
-      ],
-      "homepage": "https://royalur.net",
-      "lastUpdated": "2026-10-18",
-      "offline": false,
-      "versionStrategy": "rolling",
-      "reviewStatus": "unverified",
-      "tags": [
-        "board-game",
-        "html5-game",
-        "royal-game-of-ur",
-        "royal-ur",
-        "web-game"
-      ],
-      "discoverySource": "github-topic-discovery"
-    }
-  },
-  {
     "id": "community.github.ruvnet.ruview",
     "name": "RuView",
     "version": "0.0.0",
@@ -2401,7 +2402,7 @@ export const remoteCatalog: Application[] = [
         "https://cognitum.one/cognitum-share-logo-v2.png"
       ],
       "homepage": "https://cognitum.one",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2458,7 +2459,7 @@ export const remoteCatalog: Application[] = [
         "https://snapdrop.net/images/twitter-stream.jpg"
       ],
       "homepage": "https://snapdrop.net",
-      "lastUpdated": "2026-11-22",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2555,7 +2556,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "http://tesseract.projectnaptha.com/",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2603,7 +2604,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://demo.liketrek.com/icons/icon-512x512.png",
       "screenshots": [],
       "homepage": "https://demo.liketrek.com",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": true,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2715,7 +2716,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://wasmer.io/favicon.ico",
       "screenshots": [],
       "homepage": "https://wasmer.io",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2822,7 +2823,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://pion.ly/favicon.svg",
       "screenshots": [],
       "homepage": "https://pion.ly",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2879,7 +2880,7 @@ export const remoteCatalog: Application[] = [
         "https://webvm.io/assets/social_2024.png"
       ],
       "homepage": "https://webvm.io",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-24",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2895,60 +2896,6 @@ export const remoteCatalog: Application[] = [
         "webassembly",
         "webvm",
         "xterm-js"
-      ],
-      "discoverySource": "github-topic-discovery"
-    }
-  },
-  {
-    "id": "community.github.qier222.yesplaymusic",
-    "name": "YesPlayMusic",
-    "version": "0.0.0",
-    "description": "高颜值的第三方网易云播放器，支持 Windows / macOS / Linux :electron: ",
-    "category": "Media",
-    "icon": "♫",
-    "featured": false,
-    "publisher": {
-      "name": "qier222",
-      "verified": false
-    },
-    "listing": "community",
-    "source": {
-      "type": "github",
-      "repository": "qier222/YesPlayMusic"
-    },
-    "license": "MIT",
-    "type": "pwa",
-    "compatibility": {
-      "minimumOqerunVersion": "0.1.0"
-    },
-    "installation": {
-      "method": "pwa",
-      "url": "https://music.qier222.com"
-    },
-    "permissions": [
-      "network"
-    ],
-    "fileAssociations": [],
-    "metadata": {
-      "screenshots": [],
-      "homepage": "https://music.qier222.com",
-      "lastUpdated": "2026-11-23",
-      "offline": false,
-      "versionStrategy": "rolling",
-      "reviewStatus": "unverified",
-      "tags": [
-        "electron",
-        "javascript",
-        "linux",
-        "mac",
-        "macos",
-        "music",
-        "music-player",
-        "netease-music",
-        "player",
-        "progressive-web-app",
-        "pwa",
-        "pwa-apps"
       ],
       "discoverySource": "github-topic-discovery"
     }
