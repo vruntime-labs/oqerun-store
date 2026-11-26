@@ -93,7 +93,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://ancientbeast.com/favicon.png",
       "screenshots": [],
       "homepage": "https://AncientBeast.com",
-      "lastUpdated": "2026-11-24",
+      "lastUpdated": "2026-11-25",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -150,7 +150,7 @@ export const remoteCatalog: Application[] = [
         "https://angular.dev/assets/images/ng-image.jpg"
       ],
       "homepage": "https://angular.dev",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -247,7 +247,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://builder.io",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -353,7 +353,7 @@ export const remoteCatalog: Application[] = [
         "https://capacitorjs.com/og.png"
       ],
       "homepage": "https://capacitorjs.com",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -467,7 +467,7 @@ export const remoteCatalog: Application[] = [
         "https://daily.dev/og-image.png?v=a830cdf1"
       ],
       "homepage": "https://daily.dev",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -524,7 +524,7 @@ export const remoteCatalog: Application[] = [
         "https://dashy.to/img/dashy.png"
       ],
       "homepage": "https://dashy.to",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -581,7 +581,7 @@ export const remoteCatalog: Application[] = [
         "https://devdocs.io/images/icon-320.png"
       ],
       "homepage": "https://devdocs.io",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": true,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -683,7 +683,7 @@ export const remoteCatalog: Application[] = [
         "https://folia-site.cielaniska.top/hero.png"
       ],
       "homepage": "https://folia-site.cielaniska.top/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -792,7 +792,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://github.githubassets.com/images/icons/emoji/unicode/1f300.png",
       "screenshots": [],
       "homepage": "https://svenstaro.github.io/genact/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -842,7 +842,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://registry.npmmirror.com/@gkd-kit/docs/0.0.1794925436093/files/.vitepress/dist/icon.svg",
       "screenshots": [],
       "homepage": "https://gkd.li",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -946,7 +946,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://op7418.github.io/guizang-game-skill/assets/ui/favicon.png",
       "screenshots": [],
       "homepage": "https://op7418.github.io/guizang-game-skill/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1003,7 +1003,7 @@ export const remoteCatalog: Application[] = [
         "https://writewithharper.com/social_image.png"
       ],
       "homepage": "https://writewithharper.com",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1057,7 +1057,7 @@ export const remoteCatalog: Application[] = [
         "https://hoppscotch.io/banner.png"
       ],
       "homepage": "https://hoppscotch.io",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1114,7 +1114,7 @@ export const remoteCatalog: Application[] = [
         "https://frappe.io/files/Frappe%20HR.png"
       ],
       "homepage": "https://frappe.io/hr",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1221,7 +1221,7 @@ export const remoteCatalog: Application[] = [
         "https://ionicframework.com/img/framework-og-img.png"
       ],
       "homepage": "https://ionicframework.com",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1278,7 +1278,7 @@ export const remoteCatalog: Application[] = [
         "https://4gray.github.io/iptvnator/og-image.png"
       ],
       "homepage": "https://4gray.github.io/iptvnator/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1440,7 +1440,7 @@ export const remoteCatalog: Application[] = [
         "https://kaetram.com/src/assets/screenshot-1.png"
       ],
       "homepage": "https://kaetram.com",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1607,7 +1607,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://leptos.dev",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1660,7 +1660,7 @@ export const remoteCatalog: Application[] = [
         "https://turso.tech/opengraph-image.png?8abb64b5fd9d7c60"
       ],
       "homepage": "https://turso.tech/libsql",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1708,7 +1708,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://developer.chrome.com/docs/lighthouse/overview/icons/icon-512x512.png",
       "screenshots": [],
       "homepage": "https://developer.chrome.com/docs/lighthouse/overview/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1761,7 +1761,7 @@ export const remoteCatalog: Application[] = [
         "https://meshery.io/assets/images/logos/meshery-gradient.png"
       ],
       "homepage": "https://meshery.io",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1867,7 +1867,7 @@ export const remoteCatalog: Application[] = [
         "https://opengym.ch/img/social-v2.jpg"
       ],
       "homepage": "https://opengym.ch",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -1967,17 +1967,9 @@ export const remoteCatalog: Application[] = [
     ],
     "fileAssociations": [],
     "metadata": {
-      "iconUrl": "https://pairdrop.net/images/android-chrome-512x512.png",
-      "screenshots": [
-        "https://pairdrop.net/images/pairdrop_screenshot_mobile_1.png",
-        "https://pairdrop.net/images/pairdrop_screenshot_mobile_2.png",
-        "https://pairdrop.net/images/pairdrop_screenshot_mobile_3.png",
-        "https://pairdrop.net/images/pairdrop_screenshot_mobile_4.png",
-        "https://pairdrop.net/images/pairdrop_screenshot_mobile_5.png",
-        "https://pairdrop.net/images/pairdrop_screenshot_mobile_6.png"
-      ],
+      "screenshots": [],
       "homepage": "https://pairdrop.net",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2028,7 +2020,7 @@ export const remoteCatalog: Application[] = [
         "https://perspective-dev.github.io/projects/light/collage.png"
       ],
       "homepage": "https://perspective-dev.github.io/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2234,7 +2226,7 @@ export const remoteCatalog: Application[] = [
         "https://www.raylib.com/common/img/raylib_logo_card.png"
       ],
       "homepage": "http://www.raylib.com",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2251,6 +2243,63 @@ export const remoteCatalog: Application[] = [
         "linux",
         "macos",
         "opengl"
+      ],
+      "discoverySource": "github-topic-discovery"
+    }
+  },
+  {
+    "id": "community.github.erkamyaman.rea.games",
+    "name": "rea games",
+    "version": "0.0.0",
+    "description": "Reverse-engineer any game, rebuild it in any engine (web, Rust, Godot) and prove the rebuild plays the same, frame by frame. Behavior specs in the open GAME.md format.",
+    "category": "Games",
+    "icon": "🎮",
+    "featured": false,
+    "publisher": {
+      "name": "erkamyaman",
+      "verified": false
+    },
+    "listing": "community",
+    "source": {
+      "type": "github",
+      "repository": "erkamyaman/rea-games"
+    },
+    "license": "MIT",
+    "type": "web",
+    "compatibility": {
+      "minimumOqerunVersion": "0.1.0"
+    },
+    "installation": {
+      "method": "web",
+      "url": "https://erkamyaman.github.io/rea-games"
+    },
+    "permissions": [
+      "network"
+    ],
+    "fileAssociations": [],
+    "metadata": {
+      "iconUrl": "https://erkamyaman.github.io/assets/logo.png",
+      "screenshots": [
+        "https://erkamyaman.github.io/rea-games/assets/social-preview.png"
+      ],
+      "homepage": "https://erkamyaman.github.io/rea-games",
+      "lastUpdated": "2026-11-26",
+      "offline": false,
+      "versionStrategy": "rolling",
+      "reviewStatus": "unverified",
+      "tags": [
+        "2048",
+        "agent-skills",
+        "bevy",
+        "canvas",
+        "claude-code",
+        "clean-room",
+        "codex",
+        "deterministic",
+        "game",
+        "game-development",
+        "game-engine",
+        "gamedev"
       ],
       "discoverySource": "github-topic-discovery"
     }
@@ -2289,7 +2338,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://img.itch.zone/aW1hZ2UvMTU4NTg4Lzc4NTU5Ny5wbmc=/32x32%23/0yhJrw.png",
       "screenshots": [],
       "homepage": "https://bayat.itch.io/red-runner",
-      "lastUpdated": "2026-11-23",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2346,7 +2395,7 @@ export const remoteCatalog: Application[] = [
         "https://cdn.dwdeveloper.com/assets/web/reldens-check.png"
       ],
       "homepage": "https://demo.reldens.com/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2403,7 +2452,7 @@ export const remoteCatalog: Application[] = [
         "https://cognitum.one/cognitum-share-logo-v2.png"
       ],
       "homepage": "https://cognitum.one",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2557,7 +2606,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "http://tesseract.projectnaptha.com/",
-      "lastUpdated": "2026-11-24",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2605,7 +2654,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://demo.liketrek.com/icons/icon-512x512.png",
       "screenshots": [],
       "homepage": "https://demo.liketrek.com",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": true,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2662,7 +2711,7 @@ export const remoteCatalog: Application[] = [
         "https://wasmedge.org/img/wasmedge-runtime-horizontal-color.png"
       ],
       "homepage": "https://WasmEdge.org",
-      "lastUpdated": "2026-11-24",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2717,7 +2766,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://wasmer.io/favicon.ico",
       "screenshots": [],
       "homepage": "https://wasmer.io",
-      "lastUpdated": "2026-11-24",
+      "lastUpdated": "2026-11-25",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2769,7 +2818,7 @@ export const remoteCatalog: Application[] = [
     "metadata": {
       "screenshots": [],
       "homepage": "https://wasmtime.dev/",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2824,7 +2873,7 @@ export const remoteCatalog: Application[] = [
       "iconUrl": "https://pion.ly/favicon.svg",
       "screenshots": [],
       "homepage": "https://pion.ly",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
@@ -2881,7 +2930,7 @@ export const remoteCatalog: Application[] = [
         "https://webvm.io/assets/social_2024.png"
       ],
       "homepage": "https://webvm.io",
-      "lastUpdated": "2026-11-25",
+      "lastUpdated": "2026-11-26",
       "offline": false,
       "versionStrategy": "rolling",
       "reviewStatus": "unverified",
